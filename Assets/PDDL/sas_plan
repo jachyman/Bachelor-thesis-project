@@ -1,0 +1,7 @@
+(move c1 b1)
+(move b1 a1)
+(move a1 a2)
+(move a2 a3)
+(move a3 b3)
+(move b3 b4)
+; cost = 6 (unit cost)
