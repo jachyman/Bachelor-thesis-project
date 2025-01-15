@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using UnityEngine;
@@ -6,19 +7,21 @@ using Debug = UnityEngine.Debug;
 
 public class FastDownwardIntegration : MonoBehaviour
 {
-    private string translatePath = "Assets/Plugins/translate/translate.py";
-    private string domainFile = "Assets/PDDL/my_domain.pddl";
-    private string problemFile = "Assets/PDDL/my_problem.pddl";
+    private static string translatePath = "Assets/Plugins/translate/translate.py";
+    private static string PDDLPath = "Assets/PDDL";
 
-    private string translateFile = "Assets/PDDL/output.sas";
+    private static string translateFile = "Assets/PDDL/output.sas";
 
-    private string downwardPath = "Assets/Plugins/downward.exe";
-    private string outputPlan = "Assets/PDDL/sas_plan";
+    private static string downwardPath = "Assets/Plugins/downward.exe";
 
     // translator command line string: /usr/bin/python3 /home/jachyman/fast_downward/downward/builds/release/bin/translate/translate.py my_domain.pddl my_problem.pddl --sas-file output.sas
     // search command line string: /home/jachyman/fast_downward/downward/builds/release/bin/downward --search 'astar(blind())' --internal-plan-file sas_plan < output.sas
-    public void RunFastDownward()
+    public static void RunFastDownward(string problemName, string domainName, string planName)
     {
+        string problemFile = $"{PDDLPath}/{problemName}.pddl";
+        string domainFile = $"{PDDLPath}/{domainName}.pddl";
+        string outputPlan = $"{PDDLPath}/{planName}";
+
         var translateArgs = $"{translatePath} {domainFile} {problemFile} --sas-file {translateFile}";
         ProcessStartInfo translateStartInfo = new ProcessStartInfo
         {
@@ -107,8 +110,15 @@ public class FastDownwardIntegration : MonoBehaviour
         }
     }
 
+    /*
     void Start()
     {
-        RunFastDownward();
+        string problemName = "my_new_problem";
+        string domainName = "my_domain";
+        PDDLHelper.CreatePDDLProblemFile(problemName, board, domainName);
+
+        string planName = "my_plan";
+        RunFastDownward(problemName, domainName, planName);
     }
+    */
 }
