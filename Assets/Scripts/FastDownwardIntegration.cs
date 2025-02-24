@@ -88,6 +88,8 @@ public class FastDownwardIntegration : MonoBehaviour
             using (Process process = Process.Start(downwardStartInfo))
             {
                 string inputContent = File.ReadAllText(translateFile);
+                //Debug.Log("INPUT CONTENT");
+                //Debug.Log(inputContent);
                 process.StandardInput.Write(inputContent);
                 process.StandardInput.Close();
 
@@ -96,7 +98,7 @@ public class FastDownwardIntegration : MonoBehaviour
 
                 process.WaitForExit();
 
-                Debug.Log($"Process Output: {output}");
+                //Debug.Log($"Process Output: {output}");
 
                 if (!string.IsNullOrEmpty(error))
                 {

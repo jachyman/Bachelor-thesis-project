@@ -73,11 +73,19 @@ public class PDDLProblems : MonoBehaviour
     {
         InitBoards();
 
-        string complexProblemName = "complex_problem";
-        string domainName = "my_domain";
-        CreatePDDLProblemFile(complexProblemName, complex_board, domainName);
+        //string complexProblemName = "complex_problem";
+        //string domainName = "my_domain";
+        string name = "two_enemies";
+        string complexProblemName = name + "_problem";
+        string domainName = name + "_domain";
+        bool manual_problem = true;
 
-        string planName = "complex_problem_plan";
+        if (!manual_problem)
+        {
+            CreatePDDLProblemFile(complexProblemName, complex_board, domainName);
+        }
+
+        string planName = name + "_plan";
         FastDownwardIntegration.RunFastDownward(complexProblemName, domainName, planName);
     }
 }
