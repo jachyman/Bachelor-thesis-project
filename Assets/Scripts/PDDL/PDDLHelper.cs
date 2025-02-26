@@ -9,6 +9,10 @@ using static GameManager;
 
 public class PDDLHelper : MonoBehaviour
 {
+    private const string PDDLPath = "Assets/PDDL/";
+
+    private const string moveActionString = "move";
+
     public static void SolveProblem(Board board, string name)
     {
         //string name = "two_enemies";
@@ -24,6 +28,19 @@ public class PDDLHelper : MonoBehaviour
     {
         char letter = (char)('a' + tile.col);
         return $"{letter}{rows - tile.row}";
+    }
+    private static Tile NotationToTile(string notation, Board board)
+    {
+        char letter = notation[0];
+        int number = (int)Char.GetNumericValue(notation[1]);
+
+        int row = board.rows - number;
+        int col = letter - 'a';
+
+        //Debug.Log("notation: " + notation);
+        //Debug.Log("row " + row + " col " + col);
+
+        return board.tiles[row, col];
     }
 
     private static string pddlProblemTemplate =
@@ -117,7 +134,7 @@ public class PDDLHelper : MonoBehaviour
         }
 
         string blockedLocations = TileListToNotation(blockedTiles, board.rows, "blocked");
-        string startLocation = TileToNotation(board.startLocation, board.rows);
+        string startLocation = TileToNotation(board.enemy.tilePosition, board.rows);
 
         StringBuilder walls = new StringBuilder();
         if (board.walls != null)
@@ -221,5 +238,49 @@ public class PDDLHelper : MonoBehaviour
         }
 
         return listNotation.ToString();
+    }
+
+    public static List<GameManager.Action> GetActionsFromPlan(string planName, Board board)
+    {
+        string path = PDDLPath + planName;
+        List<GameManager.Action> actions = new List<GameManager.Action>();
+
+        try
+        {
+            using (StreamReader sr = new StreamReader(path))
+            {
+                string line;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    if (line[0] != ';')
+                    {
+                        line = line.Replace("(", "").Replace(")", "") ;
+
+                        string[] subs = line.Split(' ');
+                        string action = subs[0];
+                        string[] arguments = new string[subs.Length - 1];
+                        Array.Copy(subs, 1, arguments, 0, arguments.Length);
+
+                        switch (action)
+                        {
+                            case moveActionString:
+                                Tile toTile = NotationToTile(arguments[1], board);
+                                MoveAction moveAction = new MoveAction(board.enemy, toTile);
+                                actions.Add(moveAction);
+                                break;
+                            default:
+                                Debug.Log("GetActionsFromPlan: action not found");
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e);
+        }
+
+        return actions;
     }
 }

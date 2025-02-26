@@ -1,6 +1,6 @@
 (define (problem tilemap_generated)
 
-    (:domain no_domain)
+    (:domain my_domain)
     
     (:objects
         a5 b5 c5 d5 e5 
@@ -30,9 +30,9 @@
         (con a1 b1) (con b1 c1) (con c1 d1) (con d1 e1) 
         
         
-        (blocked b5) (blocked d3) (blocked d2) 
+        (blocked b5) (blocked c3) (blocked d3) (blocked d2) 
         
-        (wall d5 d4) (wall b3 a3) (wall e3 e2) 
+        (wall a5 a4) (wall d5 d4) (wall b4 b3) (wall b3 a3) (wall e3 e2) 
 
         
     )

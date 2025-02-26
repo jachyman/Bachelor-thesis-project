@@ -6,15 +6,19 @@ using UnityEngine.Tilemaps;
 
 using static UIManager;
 using static PDDLHelper;
+using static FastDownwardIntegration;
 
 public class GameManager : MonoBehaviour
 {
     public Tilemap groundTilemap;
     public Tilemap horizontalWallsTilemap;
     public Tilemap verticalWallsTilemap;
+    public Tilemap onGroundTilemapInspector;
+
+    public static Tilemap onGroundTilemap;
 
     public int rows;
-    public int columns;    
+    public int columns; 
 
     public enum TileType
     {
@@ -28,23 +32,15 @@ public class GameManager : MonoBehaviour
         public TileType type;
         public int row;
         public int col;
+        public Vector3Int position;
 
-        public Tile(TileType type, int row, int col)
+        public Tile(TileType type, int row, int col, Vector3Int position)
         {
             this.type = type;
             this.row = row;
             this.col = col;
+            this.position = position;
         }
-
-        /*
-        public int Row { get; set; }
-        public int Column { get; set; }
-        public Tile(int row, int column)
-        {
-            Row = row;
-            Column = column;
-        }
-        */
     }
     public class Wall
     {
@@ -66,18 +62,49 @@ public class GameManager : MonoBehaviour
             this.wall = wall;
         }
     }
+
+    public class Enemy
+    {
+        public Tile tilePosition;
+        public TileBase tileBase;
+        public Enemy(Tile tilePosition, TileBase tileBase)
+        {
+            this.tilePosition = tilePosition;
+            this.tileBase = tileBase;
+        }
+    }
+
+    public abstract class Action
+    {
+        public abstract void makeAction();
+    }
+    public class MoveAction : Action
+    {
+        Enemy enemy;
+        Tile toTile;
+        public override void makeAction()
+        {
+            MoveEnemyToTile(enemy, toTile, onGroundTilemap);
+            enemy.tilePosition = toTile;
+        }
+        public MoveAction(Enemy enemy, Tile toTile)
+        {
+            this.enemy = enemy;
+            this.toTile = toTile;
+        }
+    }
+
     public class Board
     {
         public int rows;
         public int columns;
         public Tile[,] tiles;
-        public Tile startLocation;
+        public Enemy enemy;
         public List<Wall> walls;
         public List<WallTrigger> wallTriggers;
     }
 
-    Board basic_board;
-    Board complex_board;
+    Board board;
 
     /*
     private void InitBoards()
@@ -142,44 +169,35 @@ public class GameManager : MonoBehaviour
     }
     */
 
+    public void EnemyStep()
+    {
+        MoveEnemyToTile(board.enemy, board.tiles[0,0], onGroundTilemap);
+    }
+
+    List<Action> actions;
+    int actionIndex;
+
     void Start()
     {
-        //InitBoards();
-        Tile[,] tiles = GetTilesFromGroundTilemap(groundTilemap, rows, columns);
-        /*
-        for (int i = 0; i < 7; ++i)
+        onGroundTilemap = onGroundTilemapInspector;
+
+        string problemName = "tilemap_generated";
+        string domainName = "my_domain";
+        string planName = "tilemap_generated_plan";
+        board = GetBoardFromTilemaps(groundTilemap, horizontalWallsTilemap, verticalWallsTilemap, onGroundTilemap, rows, columns);
+        CreatePDDLProblemFile(problemName, board, domainName);
+        RunFastDownward(problemName, domainName, planName);
+
+        actions = GetActionsFromPlan(planName, board);
+        actionIndex = 0;
+    }
+
+    public void MakeNextAction()
+    {
+        if (actionIndex < actions.Count)
         {
-            for (int j = 0; j < 7; ++j)
-            {
-                Debug.Log(i + " " + j);
-                if (tiles[i, j] == null)
-                {
-                    Debug.Log("NULL");
-                }
-                else
-                {
-                    Debug.Log(tiles[i, j].type == TileType.Empty ? "EMPTY" : "BLOCKED");
-                }
-            }
+            actions[actionIndex].makeAction();
         }
-        */
-        List<Wall> walls = GetWallsFromWallTilemaps(horizontalWallsTilemap, verticalWallsTilemap, rows, columns, tiles);
-        /*
-        foreach (Wall wall in walls)
-        {
-            Debug.Log("wall between " + wall.tile1.row + " " + wall.tile1.col + " - " + wall.tile2.row + " " + wall.tile2.col);
-        }
-        */
-
-        Board board = new Board();
-
-        board.rows = rows;
-        board.columns = columns;
-        board.tiles = tiles;
-        board.startLocation = tiles[rows - 1, columns / 2];
-        board.walls = walls;
-        board.wallTriggers = new List<WallTrigger>();
-
-        CreatePDDLProblemFile("tilemap_generated", board, "no_domain");
+        actionIndex++;
     }
 }

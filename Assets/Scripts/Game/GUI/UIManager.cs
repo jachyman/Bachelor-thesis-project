@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -9,16 +10,50 @@ public class UIManager : MonoBehaviour
 {
     const string emptyTileName = "tile_empty";
     const string blockedTileName = "tile_blocked";
-    // Start is called before the first frame update
-    void Start()
+    const string enemyTileName = "enemy";
+
+    public static Board GetBoardFromTilemaps(Tilemap groundTilemap, Tilemap horizonatalWallTilemap, Tilemap verticalTilemap, Tilemap onGroundTilemap, int rows, int columns)
     {
-        
+        GameManager.Tile[,] tiles = GetTilesFromGroundTilemap(groundTilemap, rows, columns);
+        List<Wall> walls = GetWallsFromWallTilemaps(horizonatalWallTilemap, verticalTilemap, rows, columns, tiles);
+        Enemy enemy = GetEnemyFromTilemap(onGroundTilemap, tiles, rows, columns);
+
+        Board board = new Board();
+
+        board.rows = rows;
+        board.columns = columns;
+        board.tiles = tiles;
+        board.enemy = enemy;
+        board.walls = walls;
+
+        return board;
     }
 
-    // Update is called once per frame
-    void Update()
+    private static Enemy GetEnemyFromTilemap(Tilemap tilemap, GameManager.Tile[,] groundTiles, int rows, int columns)
     {
-        
+        Enemy enemy = null;
+        for (int y = rows - 1; y >= 0; y--)
+        {
+            for (int x = 0; x < columns; x++)
+            {
+                Vector3Int position = new Vector3Int(x, y, 0);
+                TileBase tile = tilemap.GetTile(position);
+
+                if (tile != null)
+                {
+                    int tileRow = rows - y - 1;
+                    int tileCol = x;
+
+                    switch (tile.name)
+                    {
+                        case enemyTileName:
+                            enemy = new Enemy(groundTiles[tileRow, tileCol], tile);
+                            break;
+                    }
+                }
+            }
+        }
+        return enemy;
     }
 
     public static GameManager.Tile[,] GetTilesFromGroundTilemap(Tilemap tilemap, int rows, int colums)
@@ -38,10 +73,10 @@ public class UIManager : MonoBehaviour
                 switch (tile.name)
                 {
                     case emptyTileName:
-                        tiles[tileRow, tileCol] = new GameManager.Tile(TileType.Empty, tileRow, tileCol);
+                        tiles[tileRow, tileCol] = new GameManager.Tile(TileType.Empty, tileRow, tileCol, position);
                         break;
                     case blockedTileName:
-                        tiles[tileRow, tileCol] = new GameManager.Tile(TileType.Blocked, tileRow, tileCol);
+                        tiles[tileRow, tileCol] = new GameManager.Tile(TileType.Blocked, tileRow, tileCol, position);
                         break;
                     default:
                         Debug.Log("tile string not compatable");
@@ -80,7 +115,15 @@ public class UIManager : MonoBehaviour
                 }
             }
         }
-
         return walls;
+    }
+
+    public static void MoveEnemyToTile(Enemy enemy, GameManager.Tile tile, Tilemap onGroundTilemap)
+    {
+        Vector3Int from = enemy.tilePosition.position;
+        Vector3Int to = tile.position;
+
+        onGroundTilemap.SetTile(to, enemy.tileBase);
+        onGroundTilemap.SetTile(from, null);
     }
 }
