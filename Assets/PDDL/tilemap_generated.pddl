@@ -1,6 +1,6 @@
 (define (problem tilemap_generated)
 
-    (:domain my_domain)
+    (:domain tilemap_generated_domain)
     
     (:objects
         a5 b5 c5 d5 e5 
@@ -9,10 +9,13 @@
         a2 b2 c2 d2 e2 
         a1 b1 c1 d1 e1 
          - location
+        en0 en1  - enemy
     )
     
     (:init 
-        (at c1)
+        (enemy_loc en0 b3)
+        (enemy_loc en1 e1)
+        
         
         ; column connections
         (con a5 a4) (con b5 b4) (con c5 c4) (con d5 d4) (con e5 e4) 
@@ -34,11 +37,14 @@
         
         (wall a5 a4) (wall d5 d4) (wall b4 b3) (wall b3 a3) (wall e3 e2) 
 
-        
+        (reverse-wall-trigger e2 b4 b3) 
     )
     
     (:goal
-        (or (at a5) (at b5) (at c5) (at d5) (at e5) )
+        (or
+          (enemy_loc en0 a5) (enemy_loc en0 b5) (enemy_loc en0 c5) (enemy_loc en0 d5) (enemy_loc en0 e5) 
+          (enemy_loc en1 a5) (enemy_loc en1 b5) (enemy_loc en1 c5) (enemy_loc en1 d5) (enemy_loc en1 e5) 
+          )
     )
 
 )
