@@ -34,7 +34,7 @@ public class Board : MonoBehaviour
 
     public Vector2Int TilemapToMatrixPosition(Vector2Int tilemapPosition)
     {
-        int matrixX = tiles.Length - 1 - tilemapPosition.y;
+        int matrixX = GetRows() - 1 - tilemapPosition.y;
         int matrixY = tilemapPosition.x;
         return new Vector2Int(matrixX, matrixY);
     }

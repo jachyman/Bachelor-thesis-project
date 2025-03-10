@@ -9,21 +9,25 @@ public class Wall
     private bool isActive = true;
     private bool isHorizontal;
     private TileBase tileBase;
+    private Tilemap tilemap;
 
     public Vector2Int Position => position;
     public bool IsActive => isActive;
     public bool IsHorizontal => isHorizontal;
     public TileBase TileBase {  get { return tileBase; } }
 
-    public Wall(Vector2Int positon, bool isHorizontal, TileBase tileBase)
+    public Wall(Vector2Int positon, bool isHorizontal, TileBase tileBase, Tilemap tilemap)
     {
         this.position = positon;
         this.isHorizontal = isHorizontal;
         this.tileBase = tileBase;
+        this.tilemap = tilemap;
     }
 
     public void SetActive(bool active)
     {
         this.isActive = active;
+        Vector3Int tilemapCoord = new Vector3Int(position.x, position.y, 0);
+        tilemap.SetTile(tilemapCoord, active ? TileBase : null);
     }
 }

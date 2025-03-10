@@ -251,9 +251,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1324337280}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: MakeNextAction
+        m_MethodName: NextEnemyStep
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1494,6 +1494,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   board: {fileID: 221067551}
   aIManager: {fileID: 1838418033}
+  uiManager: {fileID: 1067857762}
 --- !u!4 &1324337281
 Transform:
   m_ObjectHideFlags: 0

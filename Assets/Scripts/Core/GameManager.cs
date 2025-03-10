@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private Board board;
     [SerializeField] private EnemyAIManager aIManager;
+    [SerializeField] private UIManager uiManager;
 
     private GameState gameState;
 
@@ -24,7 +25,7 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         gameState = new GameState(board);
-        aIManager.PlanEnemyMovement();
+        aIManager.PlanEnemyMovement(uiManager.GetOnGroundTilemap());
     }
     public void EndGame()
     {
@@ -38,5 +39,8 @@ public class GameManager : MonoBehaviour
     {
 
     }
-
+    public void NextEnemyStep()
+    {
+        aIManager.ExecuteStepOfPlan();
+    }
 }

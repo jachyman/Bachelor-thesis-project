@@ -7,6 +7,7 @@ using Unity.VisualScripting.Antlr3.Runtime;
 using Unity.VisualScripting;
 using UnityEngine;
 using static GameManager;
+using UnityEngine.Tilemaps;
 
 public class PDDLPlanner : MonoBehaviour
 {
@@ -28,9 +29,9 @@ public class PDDLPlanner : MonoBehaviour
         FastDownwardIntegration.RunFastDownward(problemName, domainName, planName);
     }
 
-    public static List<IEnemyAction> GetActionsFromPlan(string planName, Board board)
+    public static List<IEnemyAction> GetActionsFromPlan(string planName, Board board, Tilemap onGroundTilemap)
     {
-        string path = PDDLPath + planName;
+        string path = PDDLPath + planName + "_plan";
         List<IEnemyAction> actions = new List<IEnemyAction>();
 
         try
@@ -54,7 +55,7 @@ public class PDDLPlanner : MonoBehaviour
                             case moveActionString:
                                 ITile toTile = NotationToTile(arguments[1], board);
                                 Enemy enemy = NotationToEnemy(arguments[2], board);
-                                MoveAction moveAction = new MoveAction(enemy, toTile, board);
+                                MoveAction moveAction = new MoveAction(enemy, toTile, board, onGroundTilemap);
                                 actions.Add(moveAction);
                                 break;
                             default:

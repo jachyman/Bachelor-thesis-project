@@ -69,11 +69,9 @@ public class TilemapReader : MonoBehaviour
                         tiles[row, col] = new BaseTile(tilePosition, false, false);
                         break;
                     case blockedTileName:
-                        Debug.Log("blocked tile: " + x + " " + y);
                         tiles[row, col] = new BaseTile(tilePosition, true, false);
                         break;
                     case goalTileName:
-                        Debug.Log("goal tile: " + x + " " + y);
                         tiles[row, col] = new BaseTile(tilePosition, false, true);
                         break;
                     case wallTriggerTileName:
@@ -87,7 +85,7 @@ public class TilemapReader : MonoBehaviour
                         tiles[row, col] = wallTrigger;
                         break;
                     default:
-                        Debug.Log("tile string not compatable : " + tileName);
+                        Debug.LogError("tile string not compatable : " + tileName);
                         break;
                 }
             }
@@ -112,14 +110,14 @@ public class TilemapReader : MonoBehaviour
 
                 if (horizonatlTile != null)
                 {
-                    Wall wall = new Wall(position, true, horizonatlTile);
+                    Wall wall = new Wall(position, true, horizonatlTile, horizonatalWallTilemap);
                     walls.Add(wall);
 
                     AddWallToTrigger(horizonatlTile.name, wall);
                 }
                 if (verticalTile != null)
                 {
-                    Wall wall = new Wall(position, false, verticalTile);
+                    Wall wall = new Wall(position, false, verticalTile, verticalWallTilemap);
                     walls.Add(wall);
 
                     AddWallToTrigger(verticalTile.name, wall);

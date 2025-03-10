@@ -17,6 +17,11 @@ public class UIManager : MonoBehaviour
         tilemapReader.OnGroundTilemap.SetTile(from, null);
     }
 
+    public Tilemap GetOnGroundTilemap()
+    {
+        return tilemapReader.OnGroundTilemap;
+    }
+
     public void WallSetActive(Wall wall, bool active)
     {
         Tilemap tilemap;

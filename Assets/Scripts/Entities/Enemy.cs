@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.WSA;
 
 public class Enemy
 {
@@ -22,10 +23,15 @@ public class Enemy
         this.tileBase = tileBase;
     }
 
-    public void MoveTo(ITile targetTile)
+    public void MoveTo(ITile targetTile, Tilemap tilemap)
     {
         if (!targetTile.IsBlocked)
         {
+            Vector3Int tilemapFromCoord = new Vector3Int(position.x, position.y, 0);
+            Vector3Int tilemapToCoord = new Vector3Int(targetTile.Position.x, targetTile.Position.y, 0);
+            tilemap.SetTile(tilemapToCoord, TileBase);
+            tilemap.SetTile(tilemapFromCoord, null);
+
             ITile fromTile = board.GetTileAt(position);
             fromTile.IsBlocked = false;
             targetTile.IsBlocked = true;
