@@ -4,3 +4,4 @@
 (move c2 c3 en2)
 (move c3 c4 en2)
 ; cost = 5 (unit cost)
++

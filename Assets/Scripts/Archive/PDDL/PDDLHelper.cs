@@ -7,6 +7,8 @@ using UnityEngine;
 
 using static GameManager;
 
+
+/*
 public class PDDLHelper : MonoBehaviour
 {
     private const string PDDLPath = "Assets/PDDL/";
@@ -290,4 +292,6 @@ public class PDDLHelper : MonoBehaviour
 
         return actions;
     }
+
 }
+*/

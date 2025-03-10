@@ -6,6 +6,7 @@ using UnityEngine.Tilemaps;
 
 using static GameManager;
 
+/*
 public class UIManager : MonoBehaviour
 {
     const string emptyTileName = "tile_empty";
@@ -201,3 +202,4 @@ public class UIManager : MonoBehaviour
         tilemap.SetTile(wall.position, active ? wall.tileBase : null);
     }
 }
+*/

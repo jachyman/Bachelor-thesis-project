@@ -733,40 +733,10 @@ move e5 e4 en1
 0 2 20 19
 1
 end_operator
-8
-begin_rule
-1
-0 4
-3 1 0
-end_rule
-begin_rule
-1
-0 12
-3 1 0
-end_rule
-begin_rule
-1
-0 15
-3 1 0
-end_rule
+2
 begin_rule
 1
 0 20
-3 1 0
-end_rule
-begin_rule
-1
-2 4
-3 1 0
-end_rule
-begin_rule
-1
-2 12
-3 1 0
-end_rule
-begin_rule
-1
-2 15
 3 1 0
 end_rule
 begin_rule
