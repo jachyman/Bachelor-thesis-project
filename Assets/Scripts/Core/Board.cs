@@ -10,7 +10,6 @@ public class Board : MonoBehaviour
     public List<Enemy> enemies;
     public List<Wall> walls;
 
-
     private void Awake()
     {
         if (tilemapReader == null)
@@ -69,5 +68,19 @@ public class Board : MonoBehaviour
         this.tiles = tiles;
         this.enemies = enemies;
         this.walls = walls;
+    }
+
+    public bool CanBuildWallHere(Wall wall)
+    {
+        return (!walls.Contains(wall));
+    }
+
+    public void AddWall(Wall wall)
+    {
+        walls.Add(wall);
+    }
+    public void RemoveWall(Wall wall)
+    {
+        walls.Remove(wall);
     }
 }

@@ -30,4 +30,11 @@ public class Wall
         Vector3Int tilemapCoord = new Vector3Int(position.x, position.y, 0);
         tilemap.SetTile(tilemapCoord, active ? TileBase : null);
     }
+
+    public override bool Equals(object obj)
+    {
+        return obj is Wall wall &&
+               position.Equals(wall.position) &&
+               isHorizontal == wall.isHorizontal;
+    }
 }

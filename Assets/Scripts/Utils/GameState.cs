@@ -5,11 +5,15 @@ using UnityEngine;
 public class GameState
 {
     public Board Board {  get; private set; }
-    public int CurrentTurn { get; set; }
+    public int currentTurn;
+    public int wallsBuildCurrentTurn;
+    public bool isPlayerTurn;
 
     public GameState(Board board)
     {
         Board = board;
-        CurrentTurn = 0;
+        currentTurn = 0;
+        wallsBuildCurrentTurn = 0;
+        isPlayerTurn = true;
     }
 }
