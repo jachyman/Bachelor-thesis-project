@@ -19,6 +19,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text turnCounterText;
     [SerializeField] private TMP_Text currentPlayer;
     [SerializeField] private TMP_Text wallsLeftText;
+    [SerializeField] private TMP_Text gameOverText;
 
     public class UIWallInfo
     {
@@ -145,5 +146,10 @@ public class UIManager : MonoBehaviour
 
         currentPlayer.text = gameManager.IsPlayerTurn() ? "Player turn" : "Enemy turn";
         wallsLeftText.text = "walls left " + gameManager.GetWallsLeft();
+    }
+
+    public void GameOver(bool playerWon)
+    {
+        gameOverText.text = playerWon ? "Player won" : "Player lost";
     }
 }

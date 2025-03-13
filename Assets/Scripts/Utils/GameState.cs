@@ -8,6 +8,7 @@ public class GameState
     public int currentTurn;
     public int wallsBuildCurrentTurn;
     public bool isPlayerTurn;
+    public bool gameOver;
 
     public GameState(Board board)
     {
@@ -15,5 +16,6 @@ public class GameState
         currentTurn = 0;
         wallsBuildCurrentTurn = 0;
         isPlayerTurn = true;
+        gameOver = false;
     }
 }

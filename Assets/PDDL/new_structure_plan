@@ -1,1 +1,3 @@
-; cost = 0 (unit cost)
+(move c3 c4 en0)
+(move c4 c5 en0)
+; cost = 2 (unit cost)

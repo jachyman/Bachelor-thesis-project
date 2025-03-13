@@ -12,6 +12,8 @@ public class TilemapReader : MonoBehaviour
     const string enemyTileName = "enemy";
     const string goalTileName = "tile_goal";
 
+    [SerializeField] private GameManager gameManager;
+
     [SerializeField] private Tilemap groundTilemap;
     [SerializeField] private Tilemap horizonatalWallTilemap;
     [SerializeField] private Tilemap verticalWallTilemap;
@@ -155,7 +157,7 @@ public class TilemapReader : MonoBehaviour
                     switch (tile.name)
                     {
                         case enemyTileName:
-                            Enemy enemy = new Enemy(position, enemyId, board, tile);
+                            Enemy enemy = new Enemy(position, enemyId, board, tile, gameManager);
                             enemies.Add(enemy);
                             break;
                     }

@@ -49,29 +49,54 @@ public class GameManager : MonoBehaviour
         gameState = new GameState(board);
         StartPlayerTurn();
     }
-    public void EnemyReachedEnd()
+    public void CheckEndConditions()
     {
-
-    }
-    public void EndGame(bool playerWin)
-    {
-
-    }
-    public void StartPlayerTurn()
-    {
-        gameState.currentTurn++;
+        foreach (Enemy enemy in board.enemies)
+        {
+            ITile tile = board.GetTileAt(enemy.Position);
+            if (tile is BaseTile baseTile)
+            {
+                if (baseTile.IsGoal)
+                {
+                    EndGame(false);
+                    return;
+                }
+            }
+        }
         if (gameState.currentTurn > goalTurnCount)
         {
             EndGame(true);
+        }
+    }
+    public void EndGame(bool playerWin)
+    {
+        gameState.gameOver = true;
+        uiManager.GameOver(playerWin);
+    }
+    public void StartPlayerTurn()
+    {
+        if (gameState.gameOver)
+        {
             return;
         }
-        gameState.isPlayerTurn = true;
-        gameState.wallsBuildCurrentTurn = 0;
 
-        uiManager.UpdateUI();
+        gameState.currentTurn++;
+        CheckEndConditions();
+        if (!gameState.gameOver)
+        {
+            gameState.isPlayerTurn = true;
+            gameState.wallsBuildCurrentTurn = 0;
+
+            uiManager.UpdateUI();
+        }
     }
     public void StartEnemyTurn()
     {
+        if (gameState.gameOver)
+        {
+            return;
+        }
+
         gameState.isPlayerTurn = false;
         uiManager.UpdateUI();
         StartCoroutine(ExecuteEnemyMoves());

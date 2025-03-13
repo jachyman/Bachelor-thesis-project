@@ -13,8 +13,8 @@
     )
     
     (:init 
-        (enemy_loc en0 b2) 
-        (enemy_loc en1 e5) 
+        (enemy_loc en0 c3) 
+        (enemy_loc en1 e3) 
         
         
         ; column connections
@@ -33,9 +33,9 @@
         (con a1 b1) (con b1 c1) (con c1 d1) (con d1 e1) 
         
         
-        (blocked b5) (blocked e5) (blocked d3) (blocked d2) 
+        (blocked b5) (blocked c3) (blocked d3) (blocked e3) (blocked d2) 
         
-        
+        (wall b4 b3) (wall e4 e3) (wall d4 c4) 
 
         
     )
