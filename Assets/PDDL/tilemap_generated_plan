@@ -1,5 +1,0 @@
-(move e1 e2 en1)
-(move b3 b4 en0)
-(move b4 c4 en0)
-(move c4 c5 en0)
-; cost = 4 (unit cost)

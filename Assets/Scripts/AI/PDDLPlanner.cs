@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using Unity.VisualScripting.Antlr3.Runtime;
-using Unity.VisualScripting;
 using UnityEngine;
 using static GameManager;
 using UnityEngine.Tilemaps;
@@ -17,16 +15,19 @@ public class PDDLPlanner : MonoBehaviour
     private const string enemyNameString = "en";
     private const string enemyLocationString = "enemy_loc";
 
-    public static void SolveProblem(Board board, string name)
+    public static void SolveProblem(Board board, string problemName, string domainName)
     {
-        string problemName = name + "_problem";
-        //string domainName = name + "_domain";
-        string domainName = "two_enemies_domain";
+        string problemFileName = problemName + "_problem";
+        string domainFileName = domainName + "_domain";
 
-        CreatePDDLProblemFile(problemName, board, domainName);
+        CreatePDDLProblemFile(problemFileName, board, domainFileName);
 
-        string planName = name + "_plan";
-        FastDownwardIntegration.RunFastDownward(problemName, domainName, planName);
+        string planFileName = problemName + "_plan";
+
+        var watch = System.Diagnostics.Stopwatch.StartNew();
+        FastDownwardIntegration.RunFastDownward(problemFileName, domainFileName, planFileName);
+        watch.Stop();
+        Debug.Log("fast downward time: " + watch.ElapsedMilliseconds + " ms");
     }
 
     public static List<IEnemyAction> GetActionsFromPlan(string planName, Board board, Tilemap onGroundTilemap)
@@ -80,7 +81,7 @@ public class PDDLPlanner : MonoBehaviour
         string filePath = $"Assets/PDDL/{name}.pddl";
 
         File.WriteAllText(filePath, pddlContent);
-        Debug.Log($"PDDL file written to {filePath}");
+        //Debug.Log($"PDDL file written to {filePath}");
     }
     
     private static string PositionToNotation(Vector2Int position)

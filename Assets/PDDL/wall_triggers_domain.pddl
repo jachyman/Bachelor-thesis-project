@@ -1,4 +1,4 @@
-(define (domain two_enemies_domain)
+(define (domain wall_triggers_domain)
 
     (:types
         location

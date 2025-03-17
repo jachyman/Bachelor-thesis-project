@@ -1740,7 +1740,7 @@ MonoBehaviour:
   aIManager: {fileID: 1838418033}
   uiManager: {fileID: 1067857762}
   wallsPerTurn: 1
-  enemyMovesPerTurn: 2
+  enemyMovesPerTurn: 1
   secondsBetweenEnemyMoves: 2
   goalTurnCount: 3
 --- !u!4 &1324337281
@@ -2315,6 +2315,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adc67435c3b91914abd02c3b600c929f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  domainType: 0
   board: {fileID: 221067551}
 --- !u!4 &1838418034
 Transform:
