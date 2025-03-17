@@ -13,7 +13,7 @@
     )
     
     (:init 
-        (enemy_loc en0 c3) 
+        (enemy_loc en0 a3) 
         (enemy_loc en1 e3) 
         
         
@@ -33,16 +33,18 @@
         (con a1 b1) (con b1 c1) (con c1 d1) (con d1 e1) 
         
         
-        (blocked b5) (blocked c3) (blocked d3) (blocked e3) (blocked d2) 
+        (blocked a3) (blocked d3) (blocked e3) 
         
-        (wall b4 b3) (wall e4 e3) (wall d4 c4) 
+        (wall b4 b3) (wall e4 e3) (wall a4 a3) 
 
         
     )
     
     (:goal
         (or
-          (enemy_loc en0 c5) (enemy_loc en1 c5) 
+          (enemy_loc en0 a5) (enemy_loc en1 a5) 
+(enemy_loc en0 b5) (enemy_loc en1 b5) 
+(enemy_loc en0 c5) (enemy_loc en1 c5) 
 (enemy_loc en0 d5) (enemy_loc en1 d5) 
 (enemy_loc en0 e5) (enemy_loc en1 e5) 
 )

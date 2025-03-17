@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using TMPro;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text currentPlayer;
     [SerializeField] private TMP_Text wallsLeftText;
     [SerializeField] private TMP_Text gameOverText;
+    [SerializeField] private Button gameOverButton;
 
     public class UIWallInfo
     {
@@ -151,5 +153,15 @@ public class UIManager : MonoBehaviour
     public void GameOver(bool playerWon)
     {
         gameOverText.text = playerWon ? "Player won" : "Player lost";
+        gameOverButton.GetComponentInChildren<TMP_Text>().text = playerWon ? "Next level" : "Restart";
+        if (playerWon)
+        {
+            gameOverButton.onClick.AddListener(() => gameManager.LoadNextLevel());
+        }
+        else
+        {
+            gameOverButton.onClick.AddListener(() => gameManager.RestartLevel());
+        }
+        gameOverButton.gameObject.SetActive(true);
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -100,7 +101,6 @@ public class GameManager : MonoBehaviour
         gameState.isPlayerTurn = false;
         uiManager.UpdateUI();
         StartCoroutine(ExecuteEnemyMoves());
-        StartPlayerTurn();
     }
     private IEnumerator ExecuteEnemyMoves()
     {
@@ -108,9 +108,14 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < enemyMovesPerTurn; i++)
         {
+            if (i != 0)
+            {
+                yield return new WaitForSeconds(secondsBetweenEnemyMoves);
+            }
             NextEnemyStep();
-            yield return new WaitForSeconds(secondsBetweenEnemyMoves);
         }
+
+        StartPlayerTurn();
     }
     public void NextEnemyStep()
     {
@@ -144,5 +149,15 @@ public class GameManager : MonoBehaviour
             uiManager.AddWall(wall);
             board.AddWall(wall);
         }
+    }
+
+    public void RestartLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void LoadNextLevel()
+    {
+        Debug.Log("next level");
     }
 }
