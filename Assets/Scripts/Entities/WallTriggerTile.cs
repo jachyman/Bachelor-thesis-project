@@ -26,7 +26,7 @@ public class WallTriggerTile : ITile
         this.setWall = setWall;
     }
 
-    public void TriggerEffect()
+    public void TriggerEffect(Enemy enemy)
     {
         wall.SetActive(setWall);
     }

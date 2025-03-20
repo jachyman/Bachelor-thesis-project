@@ -26,9 +26,9 @@ Atom enemy_loc(en1, c4)
 Atom enemy_loc(en1, c5)
 Atom enemy_loc(en1, d1)
 Atom enemy_loc(en1, d2)
+Atom enemy_loc(en1, d3)
 Atom enemy_loc(en1, d4)
 Atom enemy_loc(en1, d5)
-Atom enemy_loc(en1, e1)
 Atom enemy_loc(en1, e2)
 Atom enemy_loc(en1, e3)
 Atom enemy_loc(en1, e4)
@@ -55,9 +55,9 @@ Atom enemy_loc(en0, c4)
 Atom enemy_loc(en0, c5)
 Atom enemy_loc(en0, d1)
 Atom enemy_loc(en0, d2)
+Atom enemy_loc(en0, d3)
 Atom enemy_loc(en0, d4)
 Atom enemy_loc(en0, d5)
-Atom enemy_loc(en0, e1)
 Atom enemy_loc(en0, e2)
 Atom enemy_loc(en0, e3)
 Atom enemy_loc(en0, e4)
@@ -72,15 +72,15 @@ NegatedAtom new-axiom@0()
 end_variable
 0
 begin_state
-19
-6
+10
+1
 1
 end_state
 begin_goal
 1
 2 0
 end_goal
-140
+148
 begin_operator
 move a1 a2 en0
 0
@@ -208,20 +208,6 @@ move a4 a3 en1
 1
 end_operator
 begin_operator
-move a4 a5 en0
-0
-1
-0 1 3 4
-1
-end_operator
-begin_operator
-move a4 a5 en1
-0
-1
-0 0 3 4
-1
-end_operator
-begin_operator
 move a4 b4 en0
 0
 1
@@ -233,20 +219,6 @@ move a4 b4 en1
 0
 1
 0 0 3 8
-1
-end_operator
-begin_operator
-move a5 a4 en0
-0
-1
-0 1 4 3
-1
-end_operator
-begin_operator
-move a5 a4 en1
-0
-1
-0 0 4 3
 1
 end_operator
 begin_operator
@@ -390,6 +362,20 @@ move b3 b2 en1
 1
 end_operator
 begin_operator
+move b3 b4 en0
+0
+1
+0 1 7 8
+1
+end_operator
+begin_operator
+move b3 b4 en1
+0
+1
+0 0 7 8
+1
+end_operator
+begin_operator
 move b3 c3 en0
 0
 1
@@ -415,6 +401,20 @@ move b4 a4 en1
 0
 1
 0 0 8 3
+1
+end_operator
+begin_operator
+move b4 b3 en0
+0
+1
+0 1 8 7
+1
+end_operator
+begin_operator
+move b4 b3 en1
+0
+1
+0 0 8 7
 1
 end_operator
 begin_operator
@@ -628,6 +628,20 @@ move c3 c4 en1
 1
 end_operator
 begin_operator
+move c3 d3 en0
+0
+1
+0 1 12 17
+1
+end_operator
+begin_operator
+move c3 d3 en1
+0
+1
+0 0 12 17
+1
+end_operator
+begin_operator
 move c4 b4 en0
 0
 1
@@ -673,14 +687,14 @@ begin_operator
 move c4 d4 en0
 0
 1
-0 1 13 17
+0 1 13 18
 1
 end_operator
 begin_operator
 move c4 d4 en1
 0
 1
-0 0 13 17
+0 0 13 18
 1
 end_operator
 begin_operator
@@ -715,14 +729,14 @@ begin_operator
 move c5 d5 en0
 0
 1
-0 1 14 18
+0 1 14 19
 1
 end_operator
 begin_operator
 move c5 d5 en1
 0
 1
-0 0 14 18
+0 0 14 19
 1
 end_operator
 begin_operator
@@ -754,20 +768,6 @@ move d1 d2 en1
 1
 end_operator
 begin_operator
-move d1 e1 en0
-0
-1
-0 1 15 19
-1
-end_operator
-begin_operator
-move d1 e1 en1
-0
-1
-0 0 15 19
-1
-end_operator
-begin_operator
 move d2 c2 en0
 0
 1
@@ -796,6 +796,20 @@ move d2 d1 en1
 1
 end_operator
 begin_operator
+move d2 d3 en0
+0
+1
+0 1 16 17
+1
+end_operator
+begin_operator
+move d2 d3 en1
+0
+1
+0 0 16 17
+1
+end_operator
+begin_operator
 move d2 e2 en0
 0
 1
@@ -810,115 +824,157 @@ move d2 e2 en1
 1
 end_operator
 begin_operator
-move d4 c4 en0
+move d3 c3 en0
 0
 1
-0 1 17 13
+0 1 17 12
 1
 end_operator
 begin_operator
-move d4 c4 en1
+move d3 c3 en1
 0
 1
-0 0 17 13
+0 0 17 12
 1
 end_operator
 begin_operator
-move d4 d5 en0
+move d3 d2 en0
+0
+1
+0 1 17 16
+1
+end_operator
+begin_operator
+move d3 d2 en1
+0
+1
+0 0 17 16
+1
+end_operator
+begin_operator
+move d3 d4 en0
 0
 1
 0 1 17 18
 1
 end_operator
 begin_operator
-move d4 d5 en1
+move d3 d4 en1
 0
 1
 0 0 17 18
 1
 end_operator
 begin_operator
-move d4 e4 en0
+move d3 e3 en0
 0
 1
-0 1 17 22
+0 1 17 21
 1
 end_operator
 begin_operator
-move d4 e4 en1
+move d3 e3 en1
 0
 1
-0 0 17 22
+0 0 17 21
 1
 end_operator
 begin_operator
-move d5 c5 en0
+move d4 c4 en0
 0
 1
-0 1 18 14
+0 1 18 13
 1
 end_operator
 begin_operator
-move d5 c5 en1
+move d4 c4 en1
 0
 1
-0 0 18 14
+0 0 18 13
 1
 end_operator
 begin_operator
-move d5 d4 en0
+move d4 d3 en0
 0
 1
 0 1 18 17
 1
 end_operator
 begin_operator
-move d5 d4 en1
+move d4 d3 en1
 0
 1
 0 0 18 17
 1
 end_operator
 begin_operator
+move d4 d5 en0
+0
+1
+0 1 18 19
+1
+end_operator
+begin_operator
+move d4 d5 en1
+0
+1
+0 0 18 19
+1
+end_operator
+begin_operator
+move d4 e4 en0
+0
+1
+0 1 18 22
+1
+end_operator
+begin_operator
+move d4 e4 en1
+0
+1
+0 0 18 22
+1
+end_operator
+begin_operator
+move d5 c5 en0
+0
+1
+0 1 19 14
+1
+end_operator
+begin_operator
+move d5 c5 en1
+0
+1
+0 0 19 14
+1
+end_operator
+begin_operator
+move d5 d4 en0
+0
+1
+0 1 19 18
+1
+end_operator
+begin_operator
+move d5 d4 en1
+0
+1
+0 0 19 18
+1
+end_operator
+begin_operator
 move d5 e5 en0
 0
 1
-0 1 18 23
+0 1 19 23
 1
 end_operator
 begin_operator
 move d5 e5 en1
 0
 1
-0 0 18 23
-1
-end_operator
-begin_operator
-move e1 d1 en0
-0
-1
-0 1 19 15
-1
-end_operator
-begin_operator
-move e1 d1 en1
-0
-1
-0 0 19 15
-1
-end_operator
-begin_operator
-move e1 e2 en0
-0
-1
-0 1 19 20
-1
-end_operator
-begin_operator
-move e1 e2 en1
-0
-1
-0 0 19 20
+0 0 19 23
 1
 end_operator
 begin_operator
@@ -936,20 +992,6 @@ move e2 d2 en1
 1
 end_operator
 begin_operator
-move e2 e1 en0
-0
-1
-0 1 20 19
-1
-end_operator
-begin_operator
-move e2 e1 en1
-0
-1
-0 0 20 19
-1
-end_operator
-begin_operator
 move e2 e3 en0
 0
 1
@@ -961,6 +1003,20 @@ move e2 e3 en1
 0
 1
 0 0 20 21
+1
+end_operator
+begin_operator
+move e3 d3 en0
+0
+1
+0 1 21 17
+1
+end_operator
+begin_operator
+move e3 d3 en1
+0
+1
+0 0 21 17
 1
 end_operator
 begin_operator
@@ -995,14 +1051,14 @@ begin_operator
 move e4 d4 en0
 0
 1
-0 1 22 17
+0 1 22 18
 1
 end_operator
 begin_operator
 move e4 d4 en1
 0
 1
-0 0 22 17
+0 0 22 18
 1
 end_operator
 begin_operator
@@ -1037,14 +1093,14 @@ begin_operator
 move e5 d5 en0
 0
 1
-0 1 23 18
+0 1 23 19
 1
 end_operator
 begin_operator
 move e5 d5 en1
 0
 1
-0 0 23 18
+0 0 23 19
 1
 end_operator
 begin_operator
@@ -1061,7 +1117,7 @@ move e5 e4 en1
 0 0 23 22
 1
 end_operator
-10
+4
 begin_rule
 1
 1 4
@@ -1069,22 +1125,7 @@ begin_rule
 end_rule
 begin_rule
 1
-1 9
-2 1 0
-end_rule
-begin_rule
-1
-1 14
-2 1 0
-end_rule
-begin_rule
-1
-1 18
-2 1 0
-end_rule
-begin_rule
-1
-1 23
+1 20
 2 1 0
 end_rule
 begin_rule
@@ -1094,21 +1135,6 @@ begin_rule
 end_rule
 begin_rule
 1
-0 9
-2 1 0
-end_rule
-begin_rule
-1
-0 14
-2 1 0
-end_rule
-begin_rule
-1
-0 18
-2 1 0
-end_rule
-begin_rule
-1
-0 23
+0 20
 2 1 0
 end_rule

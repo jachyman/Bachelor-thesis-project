@@ -37,4 +37,9 @@ public class Wall
                position.Equals(wall.position) &&
                isHorizontal == wall.isHorizontal;
     }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
 }

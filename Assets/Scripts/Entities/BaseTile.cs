@@ -23,5 +23,5 @@ public class BaseTile : ITile
         this.isGoal = isGoal;
     }
 
-    public void TriggerEffect() { }
+    public void TriggerEffect(Enemy enemy) { }
 }

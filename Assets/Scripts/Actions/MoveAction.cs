@@ -24,6 +24,11 @@ public class MoveAction : IEnemyAction
 
     public void Execute()
     {
+        if (!enemy.IsAlive)
+        {
+            Debug.Log("Execute action: enemy is not alive");
+            return;
+        }
         enemy.MoveTo(targetTile, tilemap);
     }
 }

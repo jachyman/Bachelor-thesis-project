@@ -8,10 +8,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Board board;
     [SerializeField] private EnemyAIManager aIManager;
     [SerializeField] private UIManager uiManager;
-    [SerializeField] private int wallsPerTurn;
-    [SerializeField] private int enemyMovesPerTurn;
-    [SerializeField] private int secondsBetweenEnemyMoves;
-    [SerializeField] private int goalTurnCount;
+    [SerializeField][Range(1, 5)] private int wallsPerTurn;
+    [SerializeField][Range(1, 10)] private int enemyMovesPerTurn;
+    [SerializeField][Range(1, 3)] private int secondsBetweenEnemyMoves;
+    [SerializeField][Range(1, 15)] private int goalTurnCount;
 
     private GameState gameState;
 
@@ -52,9 +52,16 @@ public class GameManager : MonoBehaviour
     }
     public void CheckEndConditions()
     {
+        bool isAnyEnemyAlive = false;
+
+        // is enemy on goal tile
         foreach (Enemy enemy in board.enemies)
         {
             ITile tile = board.GetTileAt(enemy.Position);
+            if (enemy.IsAlive)
+            {
+                isAnyEnemyAlive = true;
+            }
             if (tile is BaseTile baseTile)
             {
                 if (baseTile.IsGoal)
@@ -64,9 +71,19 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-        if (gameState.currentTurn > goalTurnCount)
+
+        // are there enemies left
+        if (!isAnyEnemyAlive)
         {
             EndGame(true);
+            return;
+        }
+
+        // is this last round
+        if (gameState.currentTurn > goalTurnCount)
+        {
+            EndGame(false);
+            return;
         }
     }
     public void EndGame(bool playerWin)
@@ -93,6 +110,7 @@ public class GameManager : MonoBehaviour
     }
     public void StartEnemyTurn()
     {
+        CheckEndConditions();
         if (gameState.gameOver)
         {
             return;
@@ -159,5 +177,19 @@ public class GameManager : MonoBehaviour
     public void LoadNextLevel()
     {
         Debug.Log("next level");
+        if (SceneManager.GetActiveScene().buildIndex == 4)
+        {
+            Debug.Log("finished last level");
+        }
+        else
+        {
+            Debug.Log(SceneManager.GetActiveScene().buildIndex);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }

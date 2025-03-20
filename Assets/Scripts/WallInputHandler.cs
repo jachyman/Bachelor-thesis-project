@@ -20,7 +20,7 @@ public class WallInputHandler : MonoBehaviour
         {
             Debug.LogError("WallInputHandler UIManager not found");
         }
-        gameManager = FindAnyObjectByType<GameManager>();
+        gameManager = FindObjectOfType<GameManager>();
         if (gameManager == null)
         {
             Debug.LogError("WallInputHandler GameManager not found");

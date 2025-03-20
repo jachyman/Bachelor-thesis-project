@@ -6,5 +6,5 @@ public interface ITile
 {
     public Vector2Int Position { get; }
     public bool IsBlocked { get; set; }
-    public void TriggerEffect(); 
+    public void TriggerEffect(Enemy enemy); 
 }

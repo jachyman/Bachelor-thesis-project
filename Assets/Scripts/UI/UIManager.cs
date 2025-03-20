@@ -16,6 +16,7 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] public TileBase horizontalWallTileBase;
     [SerializeField] public TileBase verticalWallTileBase;
+    [SerializeField] public TileBase deadEnemyTileBase;
 
     [SerializeField] private TMP_Text turnCounterText;
     [SerializeField] private TMP_Text currentPlayer;
@@ -69,7 +70,6 @@ public class UIManager : MonoBehaviour
     {
         return tilemapReader.VerticallWallTilemap;
     }
-
 
     public void WallSetActive(Wall wall, bool active)
     {

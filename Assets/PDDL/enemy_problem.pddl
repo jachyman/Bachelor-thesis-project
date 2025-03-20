@@ -13,8 +13,8 @@
     )
     
     (:init 
-        (enemy_loc en0 b2) 
-        (enemy_loc en1 e1) 
+        (enemy_loc en0 a2) 
+        (enemy_loc en1 c1) 
         
         
         ; column connections
@@ -33,9 +33,9 @@
         (con a1 b1) (con b1 c1) (con c1 d1) (con d1 e1) 
         
         
-        (blocked d3) 
+        (blocked e1) 
         
-        (wall b4 b3) 
+        
 
         
     )
@@ -43,10 +43,7 @@
     (:goal
         (or
           (enemy_loc en0 a5) (enemy_loc en1 a5) 
-(enemy_loc en0 b5) (enemy_loc en1 b5) 
-(enemy_loc en0 c5) (enemy_loc en1 c5) 
-(enemy_loc en0 d5) (enemy_loc en1 d5) 
-(enemy_loc en0 e5) (enemy_loc en1 e5) 
+(enemy_loc en0 e2) (enemy_loc en1 e2) 
 )
     )
 

@@ -9,11 +9,18 @@ using UnityEngine.Tilemaps;
 
 public class PDDLPlanner : MonoBehaviour
 {
-    private const string PDDLPath = "Assets/PDDL/";
+    //private const string PDDLPath = "Assets/PDDL/";
+    private static string PDDLPath;
+    private static string PDDLDomainPath;
 
     private const string moveActionString = "move";
     private const string enemyNameString = "en";
     private const string enemyLocationString = "enemy_loc";
+
+    private void Awake()
+    {
+        PDDLPath = Application.persistentDataPath + "/";
+    }
 
     public static void SolveProblem(Board board, string problemName, string domainName)
     {
@@ -32,7 +39,7 @@ public class PDDLPlanner : MonoBehaviour
 
     public static List<IEnemyAction> GetActionsFromPlan(string planName, Board board, Tilemap onGroundTilemap)
     {
-        string path = PDDLPath + planName + "_plan";
+        string path = PDDLPath + planName + "_plan.pddl";
         List<IEnemyAction> actions = new List<IEnemyAction>();
 
         try
@@ -75,10 +82,11 @@ public class PDDLPlanner : MonoBehaviour
         return actions;
     }
 
-    private static void CreatePDDLProblemFile(string name, Board board, string domain)
+    private static void CreatePDDLProblemFile(string problemFileName, Board board, string domain)
     {
-        string pddlContent = GeneratePDDProblem(name, board, domain);
-        string filePath = $"Assets/PDDL/{name}.pddl";
+        string pddlContent = GeneratePDDProblem(problemFileName, board, domain);
+        //string filePath = Application.persistentDataPath + $"/{problemFileName}.pddl";
+        string filePath = Path.Combine(Application.persistentDataPath, $"{problemFileName}.pddl");
 
         File.WriteAllText(filePath, pddlContent);
         //Debug.Log($"PDDL file written to {filePath}");
@@ -266,18 +274,24 @@ public class PDDLPlanner : MonoBehaviour
         StringBuilder enemies = new StringBuilder();
         foreach (Enemy enemy in board.enemies)
         {
-            string enemyNotation = enemyNameString + enemy.Id;
-            enemies.Append(enemyNotation + " ");
+            if (enemy.IsAlive)
+            {
+                string enemyNotation = enemyNameString + enemy.Id;
+                enemies.Append(enemyNotation + " ");
+            }
         }
 
         // enemies start location
         StringBuilder enemiesStartLocation = new StringBuilder();
         foreach (Enemy enemy in board.enemies)
         {
-            string startLocation = PositionToNotation(enemy.Position);
-            enemiesStartLocation.Append($"({enemyLocationString} {enemyNameString}{enemy.Id} {startLocation}) ");
-            enemiesStartLocation.AppendLine();
-            enemiesStartLocation.Append("        ");
+            if (enemy.IsAlive)
+            {
+                string startLocation = PositionToNotation(enemy.Position);
+                enemiesStartLocation.Append($"({enemyLocationString} {enemyNameString}{enemy.Id} {startLocation}) ");
+                enemiesStartLocation.AppendLine();
+                enemiesStartLocation.Append("        ");
+            }
         }
 
         // walls
