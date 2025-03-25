@@ -14,10 +14,11 @@ public class EnemyAIManager : MonoBehaviour
     private List<IEnemyAction> currentEnemyActions;
     private int actionIndex;
 
-    private enum DomainType
+    public enum DomainType
     {
         NoWallTriggers,
-        WallTriggers
+        WallTriggers,
+        SimMovement
     }
 
     public void PlanEnemyMovement(Tilemap onGroundTilemap)
@@ -37,12 +38,15 @@ public class EnemyAIManager : MonoBehaviour
                 case DomainType.WallTriggers:
                     domainName = "wall_triggers";
                     break;
+                case DomainType.SimMovement:
+                    domainName = "sim_movement";
+                    break;
                 default:
                     Debug.LogError("no match with domain type");
                     domainName = "";
                     break;
             }
-            PDDLPlanner.SolveProblem(board, PDDLFileName, domainName);
+            PDDLPlanner.SolveProblem(board, PDDLFileName, domainName, domainType);
             currentEnemyActions = PDDLPlanner.GetActionsFromPlan(PDDLFileName, board, onGroundTilemap);
             actionIndex = 0;
         }

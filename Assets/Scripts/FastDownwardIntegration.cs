@@ -134,6 +134,9 @@ public class FastDownwardIntegration : MonoBehaviour
 
                 process.WaitForExit();
 
+                Debug.Log("downward output: " + output);
+                Debug.Log("downward error: " + error);
+
                 if (!string.IsNullOrEmpty(error))
                 {
                     Debug.LogError($"Process Error: {error}");

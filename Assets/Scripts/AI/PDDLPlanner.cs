@@ -6,6 +6,7 @@ using System.Text;
 using UnityEngine;
 using static GameManager;
 using UnityEngine.Tilemaps;
+using static EnemyAIManager;
 
 public class PDDLPlanner : MonoBehaviour
 {
@@ -16,18 +17,19 @@ public class PDDLPlanner : MonoBehaviour
     private const string moveActionString = "move";
     private const string enemyNameString = "en";
     private const string enemyLocationString = "enemy_loc";
+    private const string nextEnemyTurnString = "next_turn";
 
     private void Awake()
     {
         PDDLPath = Application.persistentDataPath + "/";
     }
 
-    public static void SolveProblem(Board board, string problemName, string domainName)
+    public static void SolveProblem(Board board, string problemName, string domainName, DomainType domainType)
     {
         string problemFileName = problemName + "_problem";
         string domainFileName = domainName + "_domain";
 
-        CreatePDDLProblemFile(problemFileName, board, domainFileName);
+        CreatePDDLProblemFile(problemFileName, board, domainFileName, domainType);
 
         string planFileName = problemName + "_plan";
 
@@ -61,8 +63,12 @@ public class PDDLPlanner : MonoBehaviour
                         switch (action)
                         {
                             case moveActionString:
+                                Debug.Log("to tile " + arguments[1]);
+                                Debug.Log("enemy " + arguments[2]);
+
                                 ITile toTile = NotationToTile(arguments[1], board);
                                 Enemy enemy = NotationToEnemy(arguments[2], board);
+
                                 MoveAction moveAction = new MoveAction(enemy, toTile, board, onGroundTilemap);
                                 actions.Add(moveAction);
                                 break;
@@ -82,9 +88,9 @@ public class PDDLPlanner : MonoBehaviour
         return actions;
     }
 
-    private static void CreatePDDLProblemFile(string problemFileName, Board board, string domain)
+    private static void CreatePDDLProblemFile(string problemFileName, Board board, string domain, DomainType domainType)
     {
-        string pddlContent = GeneratePDDProblem(problemFileName, board, domain);
+        string pddlContent = GeneratePDDProblem(problemFileName, board, domain, domainType);
         //string filePath = Application.persistentDataPath + $"/{problemFileName}.pddl";
         string filePath = Path.Combine(Application.persistentDataPath, $"{problemFileName}.pddl");
 
@@ -173,6 +179,10 @@ public class PDDLPlanner : MonoBehaviour
     (:init 
         {enemiesStartLocation}
         
+        {nextEnemyTurn}
+
+        {currentTurn}
+        
         ; column connections
         {columnConnections}
         
@@ -184,6 +194,8 @@ public class PDDLPlanner : MonoBehaviour
         {walls}
 
         {wallTriggers}
+
+        {goalTiles}
     )
     
     (:goal
@@ -192,7 +204,7 @@ public class PDDLPlanner : MonoBehaviour
 
 )";
 
-    private static string GeneratePDDProblem(string name, Board board, string domain)
+    private static string GeneratePDDProblem(string name, Board board, string domain, DomainType domainType)
     {
         string problemName = name;
         string domainName = domain;
@@ -202,11 +214,14 @@ public class PDDLPlanner : MonoBehaviour
         StringBuilder columnConnections = new StringBuilder();
         StringBuilder blockedTiles = new StringBuilder();
         StringBuilder wallTriggers = new StringBuilder();
-        StringBuilder goalTiles = new StringBuilder();
+        //StringBuilder goalTiles = new StringBuilder();
+        StringBuilder goalTilesNew = new StringBuilder();
+        List<string> goalTilesNotation = new List<string>();
 
         int rows = board.GetRows();
         int columns = board.GetCols();
 
+        // BOARD
         for (int row = 0; row < rows; ++row)
         {
             int rowNumber = rows - row;
@@ -253,11 +268,9 @@ public class PDDLPlanner : MonoBehaviour
                     if (baseTile.IsGoal)
                     {
                         string tileNotation = PositionToNotation(baseTile.Position);
-                        foreach (Enemy enemy in board.enemies)
-                        {
-                            goalTiles.Append($"({enemyLocationString} {enemyNameString}{enemy.Id} {tileNotation}) ");
-                        }
-                        goalTiles.AppendLine();
+                        goalTilesNew.Append($"(goal_tile {tileNotation}) ");
+
+                        goalTilesNotation.Add(tileNotation);
                     }
                 }
             }
@@ -270,27 +283,44 @@ public class PDDLPlanner : MonoBehaviour
             columnConnections.Append("        ");
         }
 
-        // enemies
+        // ENEMIES
+        string currentTurn = "";
+        if (domainType == DomainType.SimMovement)
+        {
+            currentTurn = "(current_turn en0)";
+        }
         StringBuilder enemies = new StringBuilder();
+        List<string> enemiesNotation = new List<string>();
+        StringBuilder enemiesStartLocation = new StringBuilder();
+        StringBuilder nextEnemyTurn = new StringBuilder();
+
         foreach (Enemy enemy in board.enemies)
         {
             if (enemy.IsAlive)
             {
                 string enemyNotation = enemyNameString + enemy.Id;
-                enemies.Append(enemyNotation + " ");
-            }
-        }
 
-        // enemies start location
-        StringBuilder enemiesStartLocation = new StringBuilder();
-        foreach (Enemy enemy in board.enemies)
-        {
-            if (enemy.IsAlive)
-            {
+                // enemies
+                enemies.Append(enemyNotation + " ");
+                enemiesNotation.Add(enemyNotation);
+
+                // start locations
                 string startLocation = PositionToNotation(enemy.Position);
                 enemiesStartLocation.Append($"({enemyLocationString} {enemyNameString}{enemy.Id} {startLocation}) ");
                 enemiesStartLocation.AppendLine();
                 enemiesStartLocation.Append("        ");
+
+                // blocked
+                blockedTiles.Append($"(blocked {startLocation}) ");
+
+                if (domainType == DomainType.SimMovement)
+                {
+                    // enemy next turn
+                    string nextEnemyNotation = enemyNameString + ((enemy.Id + 1) % board.enemies.Count);
+                    nextEnemyTurn.Append($"({nextEnemyTurnString} {enemyNotation} {nextEnemyNotation})");
+                    nextEnemyTurn.AppendLine();
+                    nextEnemyTurn.Append("        ");
+                }
             }
         }
 
@@ -302,9 +332,19 @@ public class PDDLPlanner : MonoBehaviour
             walls.Append($"(wall {notation}) ");
         }
 
+        // goal condition
+        StringBuilder goalReached = new StringBuilder();
+        foreach (string enemyNotation in enemiesNotation)
+        {
+            goalReached.Append($"(goal_reached {enemyNotation})");
+            goalReached.AppendLine();
+            goalReached.Append("          ");
+        }
+        string operation = domainType == DomainType.SimMovement ? "and" : "or";
         string goal =
-            $"(or\n" +
-            $"          {goalTiles})";
+        $"({operation}\n" +
+        $"          {goalReached.ToString()})";
+
 
         return pddlProblemTemplate
                     .Replace("{problemName}", problemName)
@@ -312,11 +352,65 @@ public class PDDLPlanner : MonoBehaviour
                     .Replace("{locations}", locations.ToString())
                     .Replace("{enemies}", enemies.ToString())
                     .Replace("{enemiesStartLocation}", enemiesStartLocation.ToString())
+                    .Replace("{nextEnemyTurn}", nextEnemyTurn.ToString())
+                    .Replace("{currentTurn}", currentTurn)
                     .Replace("{columnConnections}", columnConnections.ToString())
                     .Replace("{rowConnections}", rowConnections.ToString())
                     .Replace("{blockedLocations}", blockedTiles.ToString())
                     .Replace("{walls}", walls.ToString())
                     .Replace("{wallTriggers}", wallTriggers.ToString())
+                    .Replace("{goalTiles}", goalTilesNew.ToString())
                     .Replace("{goal}", goal);
+    }
+
+    private static string GenerateEnemyGoalCombinations(List<string> enemies, List<string> goals)
+    {
+        StringBuilder combination = new StringBuilder();
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            for (int j = 0; j < goals.Count; j++)
+            {
+                combination.Append("(and ");
+
+                List<string> newEnemies = new List<string>(enemies);
+                newEnemies.RemoveAt(i);
+                List<string> newGoals = new List<string>(goals);
+                newGoals.RemoveAt(j);
+
+                combination.Append($"(enemy_loc {enemies[i]} {goals[j]}) ");
+                combination.Append(GenerateEnemyGoalCombinationsRec(newEnemies, newGoals));
+
+                combination.Append(")");
+                combination.AppendLine();
+                combination.Append("        ");
+            }
+        }
+
+        return combination.ToString();
+    }
+
+    private static string GenerateEnemyGoalCombinationsRec(List<string> enemies, List<string> goals)
+    {
+        if (enemies.Count == 0)
+        {
+            return "";
+        }
+
+        StringBuilder combination = new StringBuilder();
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            for (int j = 0; j < goals.Count; j++)
+            {
+                List<string> newEnemies = new List<string>(enemies);
+                newEnemies.RemoveAt(i);
+                List<string> newGoals = new List<string>(goals);
+                newGoals.RemoveAt(j);
+
+                combination.Append($"(enemy_loc {enemies[i]} {goals[j]}) ");
+                string newCombination = GenerateEnemyGoalCombinationsRec(newEnemies, newGoals);
+            }
+        }
+
+        return combination.ToString();
     }
 }

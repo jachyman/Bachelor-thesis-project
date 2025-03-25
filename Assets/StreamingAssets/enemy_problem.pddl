@@ -12,16 +12,14 @@
         en0 en1  - enemy
     )
     
-    (:init 
-        (enemy_loc en0 d5) 
-        (enemy_loc en1 d4) 
-        
-        
-        (next_turn en0 en1)
-        (next_turn en1 en0)
-        
+    (:init
+        (enemy_loc en0 a2) 
+        (enemy_loc en1 c1) 
 
-        (current_turn en0)
+        (next_turn en0 en1)        
+        (next_turn en1 en0)
+
+        (current_turn en0)        
         
         ; column connections
         (con a5 a4) (con b5 b4) (con c5 c4) (con d5 d4) (con e5 e4) 
@@ -39,17 +37,14 @@
         (con a1 b1) (con b1 c1) (con c1 d1) (con d1 e1) 
         
         
-        (blocked d5) (blocked d4) 
-        
-        
-
-        
+        (blocked e1) 
     )
     
     (:goal
-        (and
-          (enemy_loc en0 d2) (enemy_loc en1 d2) 
-          )
+        (or
+            (enemy_loc en0 a5) (enemy_loc en1 a5) 
+            (enemy_loc en0 e2) (enemy_loc en1 e2) 
+        )
     )
 
 )
