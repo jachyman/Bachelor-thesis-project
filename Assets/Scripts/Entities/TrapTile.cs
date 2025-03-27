@@ -7,7 +7,7 @@ public class TrapTile : ITile
 {
     private Vector2Int position;
     private bool isBlocked;
-    private Tilemap onGroundTilemap;
+    private UIManager uiManager;
 
     public Vector2Int Position => position;
     public bool IsBlocked
@@ -15,16 +15,17 @@ public class TrapTile : ITile
         get { return isBlocked; }
         set { isBlocked = value; }
     }
-    public TrapTile(Vector2Int position, Tilemap onGroundTilemap)
+    public TrapTile(Vector2Int position, UIManager uiManager)
     {
         this.position = position;
         isBlocked = false;
-        this.onGroundTilemap = onGroundTilemap;
+        this.uiManager = uiManager;
     }
 
     public void TriggerEffect(Enemy enemy)
     {
-        enemy.Kill(onGroundTilemap);
+        enemy.Kill();
+        uiManager.KillEnemy(enemy);
         IsBlocked = true;
     }
 }

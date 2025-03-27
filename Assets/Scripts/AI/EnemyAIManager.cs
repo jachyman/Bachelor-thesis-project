@@ -21,7 +21,7 @@ public class EnemyAIManager : MonoBehaviour
         SimMovement
     }
 
-    public bool PlanEnemyMovement(Tilemap onGroundTilemap, EnemyMovement enemyMovement)
+    public bool PlanEnemyMovement(UIManager uiManager, EnemyMovement enemyMovement)
     {
         if (board == null)
         {
@@ -51,7 +51,7 @@ public class EnemyAIManager : MonoBehaviour
             bool IsProblemSolved = PDDLPlanner.SolveProblem(board, PDDLFileName, domainName, domainType);
             if (IsProblemSolved)
             {
-                currentEnemyActions = PDDLPlanner.GetActionsFromPlan(PDDLFileName, board, onGroundTilemap);
+                currentEnemyActions = PDDLPlanner.GetActionsFromPlan(PDDLFileName, board, uiManager);
                 actionIndex = 0;
                 return true;
             }

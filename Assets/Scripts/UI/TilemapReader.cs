@@ -13,7 +13,6 @@ public class TilemapReader : MonoBehaviour
     const string enemyTileName = "enemy";
     const string goalTileName = "tile_goal";
 
-    [SerializeField] private GameManager gameManager;
     [SerializeField] private UIManager uiManager;
 
     [SerializeField] private Tilemap groundTilemap;
@@ -79,7 +78,7 @@ public class TilemapReader : MonoBehaviour
                         tiles[row, col] = new BaseTile(tilePosition, false, true);
                         break;
                     case trapTileName:
-                        tiles[row, col] = new TrapTile(tilePosition, OnGroundTilemap);
+                        tiles[row, col] = new TrapTile(tilePosition, uiManager);
                         break;
                     case wallTriggerTileName:
                         Wall wall = indexWallDict[id];
@@ -163,7 +162,7 @@ public class TilemapReader : MonoBehaviour
                     if (tileNameSplit[0] == enemyTileName)
                     {
                         int enemyId = int.Parse(tileNameSplit[1]);
-                        Enemy enemy = new Enemy(position, enemyId, board, tile, gameManager, uiManager);
+                        Enemy enemy = new Enemy(position, enemyId, tile);
                         enemies.Add(enemy);
                     }
                 }

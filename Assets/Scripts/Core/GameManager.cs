@@ -123,7 +123,7 @@ public class GameManager : MonoBehaviour
     }
     private IEnumerator ExecuteEnemyMoves()
     {
-        bool isEnemyPlanSuccess = aIManager.PlanEnemyMovement(uiManager.GetOnGroundTilemap(), enemyMovement);
+        bool isEnemyPlanSuccess = aIManager.PlanEnemyMovement(uiManager, enemyMovement);
 
         if (isEnemyPlanSuccess)
         {
@@ -151,6 +151,7 @@ public class GameManager : MonoBehaviour
     public void NextEnemyStep()
     {
         aIManager.ExecuteStepOfPlan();
+        CheckEndConditions();
     }
     public bool CanBuildWallHere(Wall wall)
     {

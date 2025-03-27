@@ -4,17 +4,11 @@ using UnityEngine;
 
 public class WallInputHandler : MonoBehaviour
 {
-    [SerializeField] private Board board;
     [SerializeField] private GameManager gameManager;
     [SerializeField] private UIManager uIManager;
 
     private void Start()
     {
-        board = FindAnyObjectByType<Board>();
-        if (board == null)
-        {
-            Debug.LogError("WallInputHandler board not found");
-        }
         uIManager = FindAnyObjectByType<UIManager>();
         if (uIManager == null)
         {

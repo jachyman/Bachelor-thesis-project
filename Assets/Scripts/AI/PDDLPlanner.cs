@@ -42,7 +42,7 @@ public class PDDLPlanner : MonoBehaviour
         return fastDownwardReturn;
     }
 
-    public static List<IEnemyAction> GetActionsFromPlan(string planName, Board board, Tilemap onGroundTilemap)
+    public static List<IEnemyAction> GetActionsFromPlan(string planName, Board board, UIManager uiManager)
     {
         string path = PDDLPath + planName + "_plan.pddl";
         List<IEnemyAction> actions = new List<IEnemyAction>();
@@ -69,7 +69,7 @@ public class PDDLPlanner : MonoBehaviour
                                 ITile toTile = NotationToTile(arguments[1], board);
                                 Enemy enemy = NotationToEnemy(arguments[2], board);
 
-                                MoveAction moveAction = new MoveAction(enemy, toTile, board, onGroundTilemap);
+                                MoveAction moveAction = new MoveAction(enemy, toTile, uiManager);
                                 actions.Add(moveAction);
                                 break;
                             case skipGoalReachedEnemyActionString:
@@ -91,7 +91,7 @@ public class PDDLPlanner : MonoBehaviour
         return actions;
     }
 
-    private static void CreatePDDLProblemFile(string problemFileName, Board board, string domain, DomainType domainType)
+    public static void CreatePDDLProblemFile(string problemFileName, Board board, string domain, DomainType domainType)
     {
         string pddlContent = GeneratePDDProblem(problemFileName, board, domain, domainType);
         //string filePath = Application.persistentDataPath + $"/{problemFileName}.pddl";

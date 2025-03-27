@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class UIManager : MonoBehaviour
 {
@@ -22,7 +23,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text currentPlayer;
     [SerializeField] private TMP_Text wallsLeftText;
     [SerializeField] private TMP_Text gameOverText;
-    [SerializeField] private Button nextLevelButton;
+    [SerializeField] private UnityEngine.UI.Button nextLevelButton;
 
     public class UIWallInfo
     {
@@ -51,11 +52,19 @@ public class UIManager : MonoBehaviour
 
     public void MoveEnemyToTile(Enemy enemy, ITile tile)
     {
+        //Debug.Log($"UI Manager move from {enemy.Position.x}-{enemy.Position.y} to {tile.Position.x}-{tile.Position.y}");
+
         Vector3Int from = new Vector3Int(enemy.Position.x, enemy.Position.y, 0);
         Vector3Int to = new Vector3Int(tile.Position.x, tile.Position.y, 0);
 
         tilemapReader.OnGroundTilemap.SetTile(to, enemy.TileBase);
         tilemapReader.OnGroundTilemap.SetTile(from, null);
+    }
+
+    public void KillEnemy(Enemy enemy)
+    {
+        Vector3Int tilemapPosition = new Vector3Int(enemy.Position.x, enemy.Position.y, 0);
+        GetOnGroundTilemap().SetTile(tilemapPosition, deadEnemyTileBase);
     }
 
     public Tilemap GetOnGroundTilemap()

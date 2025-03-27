@@ -7,20 +7,14 @@ public class MoveAction : IEnemyAction
 {
     private ITile targetTile;
     private Enemy enemy;
-    private Board board;
-    private Tilemap tilemap;
+    private UIManager uiManager;
 
-    public MoveAction(Enemy enemy, ITile targetTile, Board board, Tilemap tilemap)
+    public MoveAction(Enemy enemy, ITile targetTile, UIManager uiManager)
     {
         this.targetTile = targetTile;
         this.enemy = enemy;
-        this.board = board;
-        this.tilemap = tilemap;
+        this.uiManager = uiManager;
     }
-
-    public Enemy Enemy => enemy;
-    public Board Board { get { return board; } }
-    public Tilemap Tilemap { get { return tilemap; } }
 
     public void Execute()
     {
@@ -29,6 +23,7 @@ public class MoveAction : IEnemyAction
             Debug.Log("Execute action: enemy is not alive");
             return;
         }
-        enemy.MoveTo(targetTile, tilemap);
+        uiManager.MoveEnemyToTile(enemy, targetTile);
+        enemy.MoveTo(targetTile);
     }
 }
