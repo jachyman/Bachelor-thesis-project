@@ -21,11 +21,12 @@ public class EnemyAIManager : MonoBehaviour
         SimMovement
     }
 
-    public void PlanEnemyMovement(Tilemap onGroundTilemap, EnemyMovement enemyMovement)
+    public bool PlanEnemyMovement(Tilemap onGroundTilemap, EnemyMovement enemyMovement)
     {
         if (board == null)
         {
             Debug.LogError("board null in plan enemy movement");
+            return false;
         }
         else
         {
@@ -47,9 +48,17 @@ public class EnemyAIManager : MonoBehaviour
                     domainName = "";
                     break;
             }
-            PDDLPlanner.SolveProblem(board, PDDLFileName, domainName, domainType);
-            currentEnemyActions = PDDLPlanner.GetActionsFromPlan(PDDLFileName, board, onGroundTilemap);
-            actionIndex = 0;
+            bool IsProblemSolved = PDDLPlanner.SolveProblem(board, PDDLFileName, domainName, domainType);
+            if (IsProblemSolved)
+            {
+                currentEnemyActions = PDDLPlanner.GetActionsFromPlan(PDDLFileName, board, onGroundTilemap);
+                actionIndex = 0;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
     

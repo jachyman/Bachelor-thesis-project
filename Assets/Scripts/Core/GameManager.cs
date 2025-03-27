@@ -123,22 +123,29 @@ public class GameManager : MonoBehaviour
     }
     private IEnumerator ExecuteEnemyMoves()
     {
-        aIManager.PlanEnemyMovement(uiManager.GetOnGroundTilemap(), enemyMovement);
+        bool isEnemyPlanSuccess = aIManager.PlanEnemyMovement(uiManager.GetOnGroundTilemap(), enemyMovement);
 
-        int enemyMovesCount = enemyMovement == EnemyMovement.Simultanious ? (enemyMovesPerTurn * board.GetAliveEnemyCount()) : enemyMovesPerTurn;
-        for (int i = 0; i < enemyMovesCount; i++)
+        if (isEnemyPlanSuccess)
         {
-            if (i != 0)
+            int enemyMovesCount = enemyMovement == EnemyMovement.Simultanious ? (enemyMovesPerTurn * board.GetAliveEnemyCount()) : enemyMovesPerTurn;
+            for (int i = 0; i < enemyMovesCount; i++)
             {
-                yield return new WaitForSeconds(secondsBetweenEnemyMoves);
+                if (i != 0)
+                {
+                    yield return new WaitForSeconds(secondsBetweenEnemyMoves);
+                }
+                NextEnemyStep();
+                if (gameState.gameOver)
+                {
+                    break;
+                }
             }
-            NextEnemyStep();
-            if (gameState.gameOver)
-            {
-                break;
-            }
+            StartPlayerTurn();
         }
-        StartPlayerTurn();
+        else
+        {
+            EndGame(false);
+        }
     }
     
     public void NextEnemyStep()

@@ -25,7 +25,7 @@ public class PDDLPlanner : MonoBehaviour
         PDDLPath = Application.persistentDataPath + "/";
     }
 
-    public static void SolveProblem(Board board, string problemName, string domainName, DomainType domainType)
+    public static bool SolveProblem(Board board, string problemName, string domainName, DomainType domainType)
     {
         string problemFileName = problemName + "_problem";
         string domainFileName = domainName + "_domain";
@@ -35,9 +35,11 @@ public class PDDLPlanner : MonoBehaviour
         string planFileName = problemName + "_plan";
 
         var watch = System.Diagnostics.Stopwatch.StartNew();
-        FastDownwardIntegration.RunFastDownward(problemFileName, domainFileName, planFileName);
+        bool fastDownwardReturn = FastDownwardIntegration.RunFastDownward(problemFileName, domainFileName, planFileName);
         watch.Stop();
         Debug.Log("fast downward time: " + watch.ElapsedMilliseconds + " ms");
+
+        return fastDownwardReturn;
     }
 
     public static List<IEnemyAction> GetActionsFromPlan(string planName, Board board, Tilemap onGroundTilemap)
