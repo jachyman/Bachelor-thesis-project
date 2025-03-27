@@ -8,12 +8,19 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Board board;
     [SerializeField] private EnemyAIManager aIManager;
     [SerializeField] private UIManager uiManager;
+    [SerializeField] private EnemyMovement enemyMovement;
     [SerializeField][Range(1, 5)] private int wallsPerTurn;
     [SerializeField][Range(1, 10)] private int enemyMovesPerTurn;
     [SerializeField][Range(1, 3)] private int secondsBetweenEnemyMoves;
     [SerializeField][Range(1, 15)] private int goalTurnCount;
 
     private GameState gameState;
+
+    public enum EnemyMovement
+    {
+        Simultanious,
+        NonSimultanious
+    }
 
     private void Start()
     {
@@ -52,16 +59,10 @@ public class GameManager : MonoBehaviour
     }
     public void CheckEndConditions()
     {
-        bool isAnyEnemyAlive = false;
-
         // is enemy on goal tile
         foreach (Enemy enemy in board.enemies)
         {
             ITile tile = board.GetTileAt(enemy.Position);
-            if (enemy.IsAlive)
-            {
-                isAnyEnemyAlive = true;
-            }
             if (tile is BaseTile baseTile)
             {
                 if (baseTile.IsGoal)
@@ -73,7 +74,7 @@ public class GameManager : MonoBehaviour
         }
 
         // are there enemies left
-        if (!isAnyEnemyAlive)
+        if (!board.IsAnyEnemyAlive())
         {
             EndGame(true);
             return;
@@ -122,19 +123,24 @@ public class GameManager : MonoBehaviour
     }
     private IEnumerator ExecuteEnemyMoves()
     {
-        aIManager.PlanEnemyMovement(uiManager.GetOnGroundTilemap());
+        aIManager.PlanEnemyMovement(uiManager.GetOnGroundTilemap(), enemyMovement);
 
-        for (int i = 0; i < enemyMovesPerTurn; i++)
+        int enemyMovesCount = enemyMovement == EnemyMovement.Simultanious ? (enemyMovesPerTurn * board.GetAliveEnemyCount()) : enemyMovesPerTurn;
+        for (int i = 0; i < enemyMovesCount; i++)
         {
             if (i != 0)
             {
                 yield return new WaitForSeconds(secondsBetweenEnemyMoves);
             }
             NextEnemyStep();
+            if (gameState.gameOver)
+            {
+                break;
+            }
         }
-
         StartPlayerTurn();
     }
+    
     public void NextEnemyStep()
     {
         aIManager.ExecuteStepOfPlan();

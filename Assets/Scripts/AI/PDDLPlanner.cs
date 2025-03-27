@@ -15,6 +15,7 @@ public class PDDLPlanner : MonoBehaviour
     private static string PDDLDomainPath;
 
     private const string moveActionString = "move";
+    private const string skipGoalReachedEnemyActionString = "skip_goal_reached_enemy";
     private const string enemyNameString = "en";
     private const string enemyLocationString = "enemy_loc";
     private const string nextEnemyTurnString = "next_turn";
@@ -63,14 +64,14 @@ public class PDDLPlanner : MonoBehaviour
                         switch (action)
                         {
                             case moveActionString:
-                                Debug.Log("to tile " + arguments[1]);
-                                Debug.Log("enemy " + arguments[2]);
-
                                 ITile toTile = NotationToTile(arguments[1], board);
                                 Enemy enemy = NotationToEnemy(arguments[2], board);
 
                                 MoveAction moveAction = new MoveAction(enemy, toTile, board, onGroundTilemap);
                                 actions.Add(moveAction);
+                                break;
+                            case skipGoalReachedEnemyActionString:
+                                //Debug.Log("skip enemy action");
                                 break;
                             default:
                                 Debug.Log("GetActionsFromPlan: action not found");
@@ -202,6 +203,7 @@ public class PDDLPlanner : MonoBehaviour
         {goal}
     )
 
+    (:metric minimize (total-cost))
 )";
 
     private static string GeneratePDDProblem(string name, Board board, string domain, DomainType domainType)
@@ -287,7 +289,8 @@ public class PDDLPlanner : MonoBehaviour
         string currentTurn = "";
         if (domainType == DomainType.SimMovement)
         {
-            currentTurn = "(current_turn en0)";
+            Enemy firstAliveEnemy = board.GetFirstAliveEnemy();
+            currentTurn = $"(current_turn en{firstAliveEnemy.Id})";
         }
         StringBuilder enemies = new StringBuilder();
         List<string> enemiesNotation = new List<string>();
@@ -316,7 +319,8 @@ public class PDDLPlanner : MonoBehaviour
                 if (domainType == DomainType.SimMovement)
                 {
                     // enemy next turn
-                    string nextEnemyNotation = enemyNameString + ((enemy.Id + 1) % board.enemies.Count);
+                    Enemy nextAliveEnemy = board.GetNextAliveEnemy(enemy);
+                    string nextEnemyNotation = enemyNameString + (nextAliveEnemy.Id);
                     nextEnemyTurn.Append($"({nextEnemyTurnString} {enemyNotation} {nextEnemyNotation})");
                     nextEnemyTurn.AppendLine();
                     nextEnemyTurn.Append("        ");

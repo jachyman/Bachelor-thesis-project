@@ -27,8 +27,6 @@
                 (goal_reached ?e)
             )
             (not (blocked ?from))
-            (not (current_turn ?enemy))
-            (current_turn ?next_enemy)
         )
     )
 )

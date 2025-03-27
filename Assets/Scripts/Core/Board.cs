@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Board : MonoBehaviour
@@ -82,5 +83,68 @@ public class Board : MonoBehaviour
     public void RemoveWall(Wall wall)
     {
         walls.Remove(wall);
+    }
+
+    public int GetAliveEnemyCount()
+    {
+        int count = 0;
+        foreach (Enemy enemy in enemies)
+        {
+            if (enemy.IsAlive)
+            {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public Enemy GetNextAliveEnemy(Enemy enemy)
+    {
+        return GetNextAliveEnemyRec(enemy.Id);
+    }
+
+    private Enemy GetNextAliveEnemyRec(int id)
+    {
+        int nextId = id >= (enemies.Count) ? 1 : (id + 1);
+        Enemy nextEnemy = enemies.FirstOrDefault(e => e.Id == nextId);
+        if (nextEnemy == null)
+        {
+            Debug.LogError("next enemy not found");
+            return null;
+        }
+        
+        if (nextEnemy.IsAlive)
+        {
+            return nextEnemy;
+        }
+        else
+        {
+            return GetNextAliveEnemyRec(nextEnemy.Id);
+        }
+    }
+
+    public Enemy GetFirstAliveEnemy()
+    {
+        if (IsAnyEnemyAlive())
+        {
+            return GetNextAliveEnemyRec(enemies.Count);
+        }
+        else
+        {
+            Debug.Log("no enemies left");
+            return null;
+        }
+    }
+
+    public bool IsAnyEnemyAlive()
+    {
+        foreach (Enemy enemy in enemies)
+        {
+            if (enemy.IsAlive)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

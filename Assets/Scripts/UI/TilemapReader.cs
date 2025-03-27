@@ -148,7 +148,6 @@ public class TilemapReader : MonoBehaviour
     private List<Enemy> GetEnemiesFromTilemap(Board board)
     {
         List<Enemy> enemies = new List<Enemy>();
-        int enemyId = 0;
         for (int y = rows - 1; y >= 0; y--)
         {
             for (int x = 0; x < columns; x++)
@@ -159,14 +158,14 @@ public class TilemapReader : MonoBehaviour
 
                 if (tile != null)
                 {
-                    switch (tile.name)
+                    string tileName = tile.name;
+                    string[] tileNameSplit = tileName.Split('_');
+                    if (tileNameSplit[0] == enemyTileName)
                     {
-                        case enemyTileName:
-                            Enemy enemy = new Enemy(position, enemyId, board, tile, gameManager, uiManager);
-                            enemies.Add(enemy);
-                            break;
+                        int enemyId = int.Parse(tileNameSplit[1]);
+                        Enemy enemy = new Enemy(position, enemyId, board, tile, gameManager, uiManager);
+                        enemies.Add(enemy);
                     }
-                    enemyId++;
                 }
             }
         }

@@ -22,7 +22,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text currentPlayer;
     [SerializeField] private TMP_Text wallsLeftText;
     [SerializeField] private TMP_Text gameOverText;
-    [SerializeField] private Button gameOverButton;
+    [SerializeField] private Button nextLevelButton;
 
     public class UIWallInfo
     {
@@ -153,15 +153,9 @@ public class UIManager : MonoBehaviour
     public void GameOver(bool playerWon)
     {
         gameOverText.text = playerWon ? "Player won" : "Player lost";
-        gameOverButton.GetComponentInChildren<TMP_Text>().text = playerWon ? "Next level" : "Restart";
         if (playerWon)
         {
-            gameOverButton.onClick.AddListener(() => gameManager.LoadNextLevel());
+            nextLevelButton.gameObject.SetActive(true);
         }
-        else
-        {
-            gameOverButton.onClick.AddListener(() => gameManager.RestartLevel());
-        }
-        gameOverButton.gameObject.SetActive(true);
     }
 }
