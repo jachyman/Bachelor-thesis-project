@@ -25,15 +25,8 @@ public class Enemy
 
     public void MoveTo(ITile targetTile)
     {
-        if (!targetTile.IsBlocked)
-        {
-            position = targetTile.Position;
-            targetTile.TriggerEffect(this);
-        }
-        else
-        {
-            Debug.Log("Enemy MoveTo: tile is blocked");
-        }
+        position = targetTile.Position;
+        targetTile.TriggerEffect(this);
     }
 
     public void Kill()

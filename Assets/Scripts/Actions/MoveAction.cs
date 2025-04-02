@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UIElements;
 
 public class MoveAction : IEnemyAction
 {
@@ -23,7 +24,15 @@ public class MoveAction : IEnemyAction
             Debug.Log("Execute action: enemy is not alive");
             return;
         }
-        uiManager.MoveEnemyToTile(enemy, targetTile);
-        enemy.MoveTo(targetTile);
+        if (!targetTile.IsBlocked)
+        {
+            uiManager.MoveEnemyToTile(enemy, targetTile);
+            enemy.MoveTo(targetTile);
+        }
+        else
+        {
+            Debug.Log("Enemy MoveTo: tile is blocked");
+        }
+        
     }
 }

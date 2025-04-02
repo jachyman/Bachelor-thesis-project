@@ -12,6 +12,8 @@ using static PDDLPlanner;
 [InitializeOnLoad]
 public class MeassuringScalability : MonoBehaviour
 {
+    [SerializeField] Board board;
+
     [SerializeField] [Range(1, 50)] int iterationCount;
     [SerializeField] [Range(3, 20)] int minSize;
     [SerializeField] [Range(3, 20)] int maxSize;
@@ -64,7 +66,7 @@ public class MeassuringScalability : MonoBehaviour
         for (int i = 0; i < iterationCount; i++)
         {
             usedPositions = new HashSet<(int, int)>();
-            Board board = GenerateBoard(parameters);
+            GenerateBoard(parameters);
 
             string problemFileName = PDDLName + "_problem";
             string domainFileName = GetDomainName(domainType) + "_domain";
@@ -91,15 +93,15 @@ public class MeassuringScalability : MonoBehaviour
         SaveResultToCSV(parameters, time, successfulDownwardCount);
     }
 
-    private Board GenerateBoard(BoardGenerationParameters parameters)
+    private void GenerateBoard(BoardGenerationParameters parameters)
     {
         ITile[,] tiles = GenerateTiles(parameters.size, parameters.goalCount, parameters.blockedTilesCount);
         List<Enemy> enemies = GenerateEnemies(parameters.size, parameters.enemyCount);
         List<Wall> walls = new List<Wall>();
 
-        Board board = new Board(tiles, enemies, walls);
-
-        return board;
+        board.tiles = tiles;
+        board.enemies = enemies;
+        board.walls = walls;
     }
 
     private List<Enemy> GenerateEnemies(int size, int enemyCount)
