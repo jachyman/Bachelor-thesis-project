@@ -8,6 +8,7 @@ public class TrapTile : ITile
     private Vector2Int position;
     private bool isBlocked;
     private UIManager uiManager;
+    private int id;
 
     public Vector2Int Position => position;
     public bool IsBlocked
@@ -15,17 +16,26 @@ public class TrapTile : ITile
         get { return isBlocked; }
         set { isBlocked = value; }
     }
-    public TrapTile(Vector2Int position, UIManager uiManager)
+    public int Id { get { return id; } }
+    public TrapTile(Vector2Int position, UIManager uiManager, int id)
     {
         this.position = position;
         isBlocked = false;
         this.uiManager = uiManager;
+        this.id = id;
     }
 
     public void TriggerEffect(Enemy enemy)
     {
-        enemy.Kill();
-        uiManager.KillEnemy(enemy);
-        IsBlocked = true;
+        if (id == 0 || id == enemy.Id)
+        {
+            enemy.Kill();
+            uiManager.KillEnemy(enemy);
+            IsBlocked = true;
+        }
+        else
+        {
+            Debug.Log("trap and enemy id not equal");
+        }
     }
 }

@@ -52,8 +52,6 @@ public class UIManager : MonoBehaviour
 
     public void MoveEnemyToTile(Enemy enemy, ITile tile)
     {
-        //Debug.Log($"UI Manager move from {enemy.Position.x}-{enemy.Position.y} to {tile.Position.x}-{tile.Position.y}");
-
         Vector3Int from = new Vector3Int(enemy.Position.x, enemy.Position.y, 0);
         Vector3Int to = new Vector3Int(tile.Position.x, tile.Position.y, 0);
 

@@ -56,7 +56,7 @@ public class TilemapReader : MonoBehaviour
                 string tileName = tile.name;
                 string[] tileNameSplit = tileName.Split('_');
                 tileName = tileNameSplit[0] + "_" + tileNameSplit[1];
-                int id = -1;
+                int id = 0;
                 if (tileNameSplit.Length == 3)
                 {
                     id = int.Parse(tileNameSplit[2]);
@@ -78,7 +78,7 @@ public class TilemapReader : MonoBehaviour
                         tiles[row, col] = new BaseTile(tilePosition, false, true);
                         break;
                     case trapTileName:
-                        tiles[row, col] = new TrapTile(tilePosition, uiManager);
+                        tiles[row, col] = new TrapTile(tilePosition, uiManager, id);
                         break;
                     case wallTriggerTileName:
                         Wall wall = indexWallDict[id];
@@ -162,7 +162,8 @@ public class TilemapReader : MonoBehaviour
                     if (tileNameSplit[0] == enemyTileName)
                     {
                         int enemyId = int.Parse(tileNameSplit[1]);
-                        Enemy enemy = new Enemy(position, enemyId, tile);
+                        ITile currentTile = board.GetTileAt(position);
+                        Enemy enemy = new Enemy(position, enemyId, tile, currentTile);
                         enemies.Add(enemy);
                     }
                 }

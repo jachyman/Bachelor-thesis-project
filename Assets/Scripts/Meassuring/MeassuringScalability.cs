@@ -112,7 +112,7 @@ public class MeassuringScalability : MonoBehaviour
             (int, int) coord = GetRandomPosition(size);
             Vector2Int position = new Vector2Int(coord.Item1, coord.Item2);
 
-            Enemy enemy = new Enemy(position, i + 1, null);
+            Enemy enemy = new Enemy(position, i + 1, null, board.GetTileAt(position));
             enemies.Add(enemy);
         }
         return enemies;
