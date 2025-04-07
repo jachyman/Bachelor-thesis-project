@@ -9,7 +9,7 @@ using Debug = UnityEngine.Debug;
 
 public class FastDownwardIntegration : MonoBehaviour
 {
-
+    [SerializeField] private bool debugLogs;
     const int SEARCH_UNSOLVED_INCOMPLETE_EXIT_CODE = 12;
 
     // translator command line string: /usr/bin/python3 /home/jachyman/fast_downward/downward/builds/release/bin/translate/translate.py my_domain.pddl my_problem.pddl --sas-file output.sas
@@ -87,9 +87,9 @@ public class FastDownwardIntegration : MonoBehaviour
 
         translateProcess.WaitForExit();
 
-        Debug.Log("translate exit code " + translateProcess.ExitCode);
-        Debug.Log($"Standard output: {translateOutput}");
-        Debug.Log($"Error output: {translateError}");
+        //Debug.Log("translate exit code " + translateProcess.ExitCode);
+        //Debug.Log($"Standard output: {translateOutput}");
+        //Debug.Log($"Error output: {translateError}");
         translateProcess.Close();
 
 
@@ -138,8 +138,8 @@ public class FastDownwardIntegration : MonoBehaviour
 
                 process.WaitForExit();
 
-                Debug.Log("downward exit code: " + process.ExitCode); 
-                Debug.Log("downward output: " + output);
+                //Debug.Log("downward exit code: " + process.ExitCode); 
+                //Debug.Log("downward output: " + output);
                 downwardExitCode = process.ExitCode;
 
                 if (!string.IsNullOrEmpty(error))

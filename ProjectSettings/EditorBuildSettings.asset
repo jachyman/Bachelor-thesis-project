@@ -20,4 +20,19 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/NonSimultanious/Level_5.unity
     guid: 51ebad24d1d3b314c88bbbcd33616278
+  - enabled: 1
+    path: Assets/Scenes/Simultanious/enemy trap/Level_1.unity
+    guid: d20a1f521caa33a418c5041e8c2cca23
+  - enabled: 1
+    path: Assets/Scenes/Simultanious/enemy trap/Level_2.unity
+    guid: caed93c564a1ad94aaff8a48d8825fb0
+  - enabled: 1
+    path: Assets/Scenes/Simultanious/enemy trap/Level_3.unity
+    guid: ea4780869c628be43b338ac2153decdf
+  - enabled: 1
+    path: Assets/Scenes/Simultanious/enemy trap/Level_4.unity
+    guid: eea1493c6434dd846806a8902b3070b2
+  - enabled: 1
+    path: Assets/Scenes/Simultanious/enemy trap/Level_5.unity
+    guid: e4b30695c5a1aa34f8aedf4477d51164
   m_configObjects: {}
