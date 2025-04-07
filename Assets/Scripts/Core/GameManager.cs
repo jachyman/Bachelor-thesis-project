@@ -111,15 +111,22 @@ public class GameManager : MonoBehaviour
     }
     public void StartEnemyTurn()
     {
-        CheckEndConditions();
-        if (gameState.gameOver)
+        if (gameState.isPlayerTurn)
         {
-            return;
-        }
+            CheckEndConditions();
+            if (gameState.gameOver)
+            {
+                return;
+            }
 
-        gameState.isPlayerTurn = false;
-        uiManager.UpdateUI();
-        StartCoroutine(ExecuteEnemyMoves());
+            gameState.isPlayerTurn = false;
+            uiManager.UpdateUI();
+            StartCoroutine(ExecuteEnemyMoves());
+        }
+        else
+        {
+            Debug.Log("enemy turn hasnt finished");
+        }
     }
     private IEnumerator ExecuteEnemyMoves()
     {
@@ -191,15 +198,8 @@ public class GameManager : MonoBehaviour
     public void LoadNextLevel()
     {
         Debug.Log("next level");
-        if (SceneManager.GetActiveScene().buildIndex == 4)
-        {
-            Debug.Log("finished last level");
-        }
-        else
-        {
-            Debug.Log(SceneManager.GetActiveScene().buildIndex);
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        }
+        Debug.Log(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public void QuitGame()
