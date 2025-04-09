@@ -6,36 +6,41 @@ using UnityEngine.Tilemaps;
 public class TrapTile : ITile
 {
     private Vector2Int position;
-    private bool isBlocked;
+    private bool isOccupied;
     private UIManager uiManager;
     private int id;
 
     public Vector2Int Position => position;
     public bool IsBlocked
     {
-        get { return isBlocked; }
-        set { isBlocked = value; }
+        get { return isOccupied; }
     }
+
     public int Id { get { return id; } }
     public TrapTile(Vector2Int position, UIManager uiManager, int id)
     {
         this.position = position;
-        isBlocked = false;
+        isOccupied = false;
         this.uiManager = uiManager;
         this.id = id;
     }
 
-    public void TriggerEffect(Enemy enemy)
+    public void EnterTileEffect(Enemy enemy)
     {
+        isOccupied = true;
         if (id == 0 || id == enemy.Id)
         {
             enemy.Kill();
             uiManager.KillEnemy(enemy);
-            IsBlocked = true;
         }
         else
         {
             Debug.Log("trap and enemy id not equal");
         }
+    }
+
+    public void LeaveTileEffect()
+    {
+        isOccupied = false;
     }
 }
