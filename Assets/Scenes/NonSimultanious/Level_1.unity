@@ -1245,7 +1245,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d321be5bf800c043bc546f206a4d94d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManager: {fileID: 1324337280}
   uiManager: {fileID: 1067857762}
   groundTilemap: {fileID: 501580321}
   horizonatalWallTilemap: {fileID: 1019267277}
@@ -1273,6 +1272,8 @@ MonoBehaviour:
   horizontalWallTileBase: {fileID: 11400000, guid: 93e50e7aeabe78943ae0403a8f140059, type: 2}
   verticalWallTileBase: {fileID: 11400000, guid: ec321956b5fafa749a373e910c3f03a2, type: 2}
   deadEnemyTileBase: {fileID: 11400000, guid: cda31695eaec586489a2d8c3515eee85, type: 2}
+  switchTileOnTileBase: {fileID: 0}
+  switchTileOffTileBase: {fileID: 0}
   turnCounterText: {fileID: 1842876707}
   currentPlayer: {fileID: 330491390}
   wallsLeftText: {fileID: 2001858861}
@@ -1870,7 +1871,7 @@ MonoBehaviour:
   enemyMovement: 1
   wallsPerTurn: 1
   enemyMovesPerTurn: 2
-  secondsBetweenEnemyMoves: 2
+  secondsBetweenEnemyMoves: 1
   goalTurnCount: 3
 --- !u!4 &1324337281
 Transform:

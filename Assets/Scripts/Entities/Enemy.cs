@@ -27,11 +27,10 @@ public class Enemy
 
     public void MoveTo(ITile targetTile)
     {
-        currentTile.IsBlocked = false;
+        currentTile.LeaveTileEffect();
         currentTile = targetTile;
-        currentTile.IsBlocked = true;
         position = targetTile.Position;
-        targetTile.TriggerEffect(this);
+        targetTile.EnterTileEffect(this);
     }
 
     public void Kill()

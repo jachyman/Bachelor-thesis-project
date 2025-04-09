@@ -9,6 +9,7 @@ public class TilemapReader : MonoBehaviour
     const string emptyTileName = "tile_empty";
     const string blockedTileName = "tile_blocked";
     const string trapTileName = "tile_trap";
+    const string switchTileName = "tile_switch";
     const string wallTriggerTileName = "wall_trigger";
     const string enemyTileName = "enemy";
     const string goalTileName = "tile_goal";
@@ -79,6 +80,9 @@ public class TilemapReader : MonoBehaviour
                         break;
                     case trapTileName:
                         tiles[row, col] = new TrapTile(tilePosition, uiManager, id);
+                        break;
+                    case switchTileName:
+                        tiles[row, col] = new SwitchTile(tilePosition, false, id == 0 ? false : true);
                         break;
                     case wallTriggerTileName:
                         Wall wall = indexWallDict[id];

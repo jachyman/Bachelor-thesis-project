@@ -119,6 +119,8 @@ public class GameManager : MonoBehaviour
                 return;
             }
 
+            board.SwitchSwitchTiles(uiManager);
+
             gameState.isPlayerTurn = false;
             uiManager.UpdateUI();
             StartCoroutine(ExecuteEnemyMoves());

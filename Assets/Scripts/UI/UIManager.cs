@@ -18,6 +18,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] public TileBase horizontalWallTileBase;
     [SerializeField] public TileBase verticalWallTileBase;
     [SerializeField] public TileBase deadEnemyTileBase;
+    [SerializeField] private TileBase switchTileOnTileBase;
+    [SerializeField] private TileBase switchTileOffTileBase;
 
     [SerializeField] private TMP_Text turnCounterText;
     [SerializeField] private TMP_Text currentPlayer;
@@ -63,6 +65,12 @@ public class UIManager : MonoBehaviour
     {
         Vector3Int tilemapPosition = new Vector3Int(enemy.Position.x, enemy.Position.y, 0);
         GetOnGroundTilemap().SetTile(tilemapPosition, deadEnemyTileBase);
+    }
+
+    public void SwitchSwitchTile(SwitchTile tile)
+    {
+        Vector3Int tilePosition = new Vector3Int(tile.Position.x, tile.Position.y, 0);
+        tilemapReader.GroundTilemap.SetTile(tilePosition, tile.IsSwitchedOn ? switchTileOnTileBase : switchTileOffTileBase);
     }
 
     public Tilemap GetOnGroundTilemap()

@@ -290,10 +290,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   board: {fileID: 566557066}
   iterationCount: 10
-  minSize: 3
-  maxSize: 3
-  enemyCount: 4
-  goalCount: 3
+  minSize: 8
+  maxSize: 8
+  enemyCount: 3
+  goalCount: 1
   blockedTilesCount: 0
   domainType: 2
 --- !u!4 &944079122

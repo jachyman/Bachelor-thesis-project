@@ -10,6 +10,7 @@ public class Board : MonoBehaviour
     public ITile[,] tiles;
     public List<Enemy> enemies;
     public List<Wall> walls;
+    public List<SwitchTile> switchTiles;
 
     private void Awake()
     {
@@ -29,6 +30,35 @@ public class Board : MonoBehaviour
         if (tiles == null)
         {
             Debug.LogError("tiles null in INIT");
+        }
+        InitSwitchTiles();
+    }
+
+    private void InitSwitchTiles()
+    {
+        switchTiles = new List<SwitchTile>();
+        foreach (ITile tile in tiles)
+        {
+            if (tile is SwitchTile switchTile)
+            {
+                switchTiles.Add(switchTile);
+            }
+        }
+    }
+
+    public void SwitchSwitchTiles(UIManager uIManager)
+    {
+        foreach (SwitchTile tile in switchTiles)
+        {
+            if (!tile.IsOccupied)
+            {
+                tile.Switch();
+                uIManager.SwitchSwitchTile(tile);
+            }
+            else
+            {
+                Debug.Log("switch tile is occupied");
+            }
         }
     }
 
@@ -57,18 +87,15 @@ public class Board : MonoBehaviour
 
     public int GetRows()
     {
+        if (tiles == null)
+        {
+            Debug.Log("tiles is null");
+        }
         return tiles.GetLength(0);
     }
     public int GetCols()
     {
         return tiles.GetLength(1);
-    }
-
-    public Board(ITile[,] tiles, List<Enemy> enemies, List<Wall> walls)
-    {
-        this.tiles = tiles;
-        this.enemies = enemies;
-        this.walls = walls;
     }
 
     public bool CanBuildWallHere(Wall wall)

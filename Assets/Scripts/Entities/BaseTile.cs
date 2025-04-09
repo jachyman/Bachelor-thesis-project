@@ -6,12 +6,12 @@ public class BaseTile : ITile
 {
     private Vector2Int position;
     private bool isBlocked;
+    private bool isOccupied;
     private bool isGoal;
 
     public Vector2Int Position {  get { return position; } }
     public bool IsBlocked {
-        get { return isBlocked; } 
-        set { isBlocked = value; }
+        get { return isBlocked || isOccupied; } 
     }
     public bool IsGoal { get { return isGoal; } }
 
@@ -21,7 +21,16 @@ public class BaseTile : ITile
         this.position = position;
         this.isBlocked = isBlocked;
         this.isGoal = isGoal;
+        isOccupied = false;
     }
 
-    public void TriggerEffect(Enemy enemy) { }
+    public void EnterTileEffect(Enemy enemy)
+    {
+        isOccupied = true;
+    }
+
+    public void LeaveTileEffect()
+    {
+        isOccupied = false;
+    }
 }

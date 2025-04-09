@@ -96,10 +96,10 @@ public class MeassuringScalability : MonoBehaviour
     private void GenerateBoard(BoardGenerationParameters parameters)
     {
         ITile[,] tiles = GenerateTiles(parameters.size, parameters.goalCount, parameters.blockedTilesCount);
+        board.tiles = tiles;
         List<Enemy> enemies = GenerateEnemies(parameters.size, parameters.enemyCount);
         List<Wall> walls = new List<Wall>();
 
-        board.tiles = tiles;
         board.enemies = enemies;
         board.walls = walls;
     }
