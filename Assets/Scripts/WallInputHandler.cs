@@ -6,6 +6,10 @@ public class WallInputHandler : MonoBehaviour
 {
     [SerializeField] private GameManager gameManager;
     [SerializeField] private UIManager uIManager;
+    [SerializeField] private SpriteRenderer spriteRenderer;
+
+    private Color baseColor = Color.white;
+    private Color hoverColor = Color.yellow;
 
     private void Start()
     {
@@ -25,5 +29,16 @@ public class WallInputHandler : MonoBehaviour
     {
         Wall wall = uIManager.GenerateWall(gameObject);
         gameManager.BuildWall(wall);
+        uIManager.UpdateUI();
+    }
+
+    private void OnMouseEnter()
+    {
+        spriteRenderer.color = hoverColor;
+    }
+
+    private void OnMouseExit()
+    {
+        spriteRenderer.color = baseColor;
     }
 }

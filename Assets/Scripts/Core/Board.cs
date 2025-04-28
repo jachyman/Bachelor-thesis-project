@@ -11,6 +11,7 @@ public class Board : MonoBehaviour
     public List<Enemy> enemies;
     public List<Wall> walls;
     public List<SwitchTile> switchTiles;
+    public List<Wall> playerWalls;
 
     private void Awake()
     {
@@ -32,6 +33,7 @@ public class Board : MonoBehaviour
             Debug.LogError("tiles null in INIT");
         }
         InitSwitchTiles();
+        playerWalls = new List<Wall>();
     }
 
     private void InitSwitchTiles()
@@ -106,10 +108,23 @@ public class Board : MonoBehaviour
     public void AddWall(Wall wall)
     {
         walls.Add(wall);
+        playerWalls.Add(wall);
     }
     public void RemoveWall(Wall wall)
     {
         walls.Remove(wall);
+    }
+    public Wall UndoWallBuild()
+    {
+        if (playerWalls.Count > 0)
+        {
+            Wall wallToUndo = playerWalls.Last();
+            RemoveWall(wallToUndo);
+            playerWalls.Remove(wallToUndo);
+
+            return wallToUndo;
+        }
+        return null;
     }
 
     public int GetAliveEnemyCount()

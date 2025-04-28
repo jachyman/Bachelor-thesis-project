@@ -22,7 +22,8 @@ public class PDDLPlanner : MonoBehaviour
 
     private void Awake()
     {
-        PDDLPath = Application.persistentDataPath + "/";
+        //PDDLPath = Application.persistentDataPath + "/";
+        PDDLPath = Path.Combine(Application.streamingAssetsPath, "generated_files");
     }
 
     public static bool SolveProblem(Board board, string problemName, string domainName, DomainType domainType)
@@ -44,7 +45,8 @@ public class PDDLPlanner : MonoBehaviour
 
     public static List<IEnemyAction> GetActionsFromPlan(string planName, Board board, UIManager uiManager)
     {
-        string path = PDDLPath + planName + "_plan.pddl";
+        string planFile = planName + "_plan.pddl";
+        string path = Path.Combine(PDDLPath, planFile);
         List<IEnemyAction> actions = new List<IEnemyAction>();
 
         try
@@ -95,7 +97,7 @@ public class PDDLPlanner : MonoBehaviour
     {
         string pddlContent = GeneratePDDProblem(problemFileName, board, domain, domainType);
         //string filePath = Application.persistentDataPath + $"/{problemFileName}.pddl";
-        string filePath = Path.Combine(Application.persistentDataPath, $"{problemFileName}.pddl");
+        string filePath = Path.Combine(PDDLPath, $"{problemFileName}.pddl");
 
         File.WriteAllText(filePath, pddlContent);
         //Debug.Log($"PDDL file written to {filePath}");

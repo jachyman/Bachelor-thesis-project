@@ -123,14 +123,14 @@ public class TilemapReader : MonoBehaviour
                     Wall wall = new Wall(position, true, horizonatlTile, horizonatalWallTilemap);
                     walls.Add(wall);
 
-                    AddWallToTrigger(horizonatlTile.name, wall);
+                    //AddWallToTrigger(horizonatlTile.name, wall);
                 }
                 if (verticalTile != null)
                 {
                     Wall wall = new Wall(position, false, verticalTile, verticalWallTilemap);
                     walls.Add(wall);
 
-                    AddWallToTrigger(verticalTile.name, wall);
+                    //AddWallToTrigger(verticalTile.name, wall);
                 }
             }
         }

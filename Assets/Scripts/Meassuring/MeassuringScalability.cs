@@ -9,7 +9,7 @@ using UnityEngine;
 using static EnemyAIManager;
 using static PDDLPlanner;
 
-[InitializeOnLoad]
+//[InitializeOnLoad]
 public class MeassuringScalability : MonoBehaviour
 {
     [SerializeField] Board board;

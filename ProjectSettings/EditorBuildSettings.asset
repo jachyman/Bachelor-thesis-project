@@ -6,11 +6,23 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Menu/MainMenu.unity
+    guid: 0ad4f1b43b13450409014d471b38dd53
+  - enabled: 1
     path: Assets/Scenes/Tutorial/tutorial_1.unity
     guid: ceb40d9fe231b7e498ea15c5e99da35c
   - enabled: 1
+    path: Assets/Scenes/TutorialLevels/Tutorial_Level_1.unity
+    guid: 0565273299b20034592699cca467a6d5
+  - enabled: 1
+    path: Assets/Scenes/Tutorial/tutorial_1.1.unity
+    guid: a20da565e3f7b9b458436271ccb889c7
+  - enabled: 1
     path: Assets/Scenes/NonSimultanious/Level_1.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/Tutorial/tutorial_1.2.unity
+    guid: 3e89fd57bab5fc5478d18a3bcb0fd60d
   - enabled: 1
     path: Assets/Scenes/NonSimultanious/Level_2.unity
     guid: 577a06cc83783cc4789b985a7d7e7c66
@@ -18,29 +30,17 @@ EditorBuildSettings:
     path: Assets/Scenes/NonSimultanious/Level_3.unity
     guid: 3c58a5b3f43b2d846a0f610a7ba7b6e4
   - enabled: 1
-    path: Assets/Scenes/Tutorial/tutorial_2.unity
-    guid: e9b542a7418f283478890e71b04b9e5f
-  - enabled: 1
-    path: Assets/Scenes/NonSimultanious/Level_4.unity
-    guid: 0c1dd11399ffbc5428b9f991d3691428
-  - enabled: 1
-    path: Assets/Scenes/NonSimultanious/Level_5.unity
-    guid: 51ebad24d1d3b314c88bbbcd33616278
-  - enabled: 1
     path: Assets/Scenes/Tutorial/tutorial_3.unity
     guid: 2633fe09bb475ac429ce1dea0285a2d1
   - enabled: 1
-    path: Assets/Scenes/Simultanious/Basic/Level_1.unity
-    guid: 798cc59b06de7744aa1e2b23ef5015cc
+    path: Assets/Scenes/Simultanious/old/Level_5.unity
+    guid: 114b4b3388e7c584c998f8d3453eb6c8
   - enabled: 1
     path: Assets/Scenes/Simultanious/Basic/Level_2.unity
     guid: a191860317fee7c4483907ea189bcef8
   - enabled: 1
     path: Assets/Scenes/Simultanious/Basic/Level_3.unity
     guid: e3a59087a02f3724081d26fb149a52e2
-  - enabled: 1
-    path: Assets/Scenes/Simultanious/Basic/Level_4.unity
-    guid: 94952676ee69c2844886f56b5fd24b04
   - enabled: 1
     path: Assets/Scenes/Simultanious/Basic/Level_5.unity
     guid: 459ed18889305cb428e0693b9ef3afc8
@@ -57,9 +57,15 @@ EditorBuildSettings:
     path: Assets/Scenes/Simultanious/enemy trap/Level_3.unity
     guid: ea4780869c628be43b338ac2153decdf
   - enabled: 1
+    path: Assets/Scenes/Simultanious/enemy trap/Level_6.unity
+    guid: a22fe17f145b97a479538531564d2d27
+  - enabled: 1
     path: Assets/Scenes/Simultanious/enemy trap/Level_4.unity
     guid: eea1493c6434dd846806a8902b3070b2
   - enabled: 1
     path: Assets/Scenes/Simultanious/enemy trap/Level_5.unity
     guid: e4b30695c5a1aa34f8aedf4477d51164
+  - enabled: 1
+    path: Assets/Scenes/Tutorial/tutorial_5.unity
+    guid: b93c1ca551f1eac4d948a7ac060ade77
   m_configObjects: {}

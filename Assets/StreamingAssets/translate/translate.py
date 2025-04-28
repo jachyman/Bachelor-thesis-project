@@ -6,6 +6,10 @@ import sys
 import traceback
 from typing import Dict, List, Optional, Tuple, Union
 
+print("Current working directory:", os.getcwd())
+print("Script location:", os.path.dirname(os.path.abspath(__file__)))
+print("Python path:", sys.path)
+
 VarValPair = Tuple[int, int]
 
 def python_version_supported():

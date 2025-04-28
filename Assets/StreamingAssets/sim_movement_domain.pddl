@@ -13,7 +13,7 @@
         (wall ?loc1 ?loc2 - location)       ; wall between locations
         (blocked ?loc - location)           ; location is blocked by enviroment or other enemy
         (current_turn ?enemy - enemy)
-        (next_turn ?enemy_1 ?enemy_2)
+        (next_turn ?enemy_1 ?enemy_2 - enemy)
         (goal_tile ?loc - location)
         (goal_reached ?enemy - enemy)
     )
@@ -46,7 +46,6 @@
 
             (increase (total-cost) 1)
         )
-        
     )
     (:action skip_goal_reached_enemy
         :parameters (?enemy ?next_enemy - enemy)

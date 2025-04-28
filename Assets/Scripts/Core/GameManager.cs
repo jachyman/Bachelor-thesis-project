@@ -22,6 +22,14 @@ public class GameManager : MonoBehaviour
         NonSimultanious
     }
 
+    public enum GameOver
+    {
+        PlayerWon,
+        PlayerLostEnemyReachedGoal,
+        PlayerLostLastTurn,
+        PlayerLostGoalBlocked
+    }
+
     private void Start()
     {
         if (board == null)
@@ -51,6 +59,15 @@ public class GameManager : MonoBehaviour
     {
         return wallsPerTurn - gameState.wallsBuildCurrentTurn;
     }
+    public int GetEnemyMovement()
+    {
+        return enemyMovesPerTurn;
+    }
+
+    public int GetWallsPerTurn()
+    {
+        return wallsPerTurn;
+    }
 
     public void StartGame()
     {
@@ -67,7 +84,7 @@ public class GameManager : MonoBehaviour
             {
                 if (baseTile.IsGoal)
                 {
-                    EndGame(false);
+                    EndGame(GameOver.PlayerLostEnemyReachedGoal);
                     return;
                 }
             }
@@ -76,21 +93,21 @@ public class GameManager : MonoBehaviour
         // are there enemies left
         if (!board.IsAnyEnemyAlive())
         {
-            EndGame(true);
+            EndGame(GameOver.PlayerWon);
             return;
         }
 
         // is this last round
         if (gameState.currentTurn > goalTurnCount)
         {
-            EndGame(false);
+            EndGame(GameOver.PlayerLostLastTurn);
             return;
         }
     }
-    public void EndGame(bool playerWin)
+    public void EndGame(GameOver gameOver)
     {
         gameState.gameOver = true;
-        uiManager.GameOver(playerWin);
+        uiManager.GameOver(gameOver);
     }
     public void StartPlayerTurn()
     {
@@ -153,7 +170,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            EndGame(false);
+            EndGame(GameOver.PlayerLostGoalBlocked);
         }
     }
     
@@ -186,9 +203,19 @@ public class GameManager : MonoBehaviour
         if (CanBuildWallHere(wall))
         {
             gameState.wallsBuildCurrentTurn++;
-            uiManager.UpdateUI();
             uiManager.AddWall(wall);
             board.AddWall(wall);
+        }
+    }
+
+    public void UndoWallBuild()
+    {
+        if (gameState.wallsBuildCurrentTurn > 0)
+        {
+            gameState.wallsBuildCurrentTurn--;
+            Wall wallToUndo = board.UndoWallBuild();
+            uiManager.UpdateUI();
+            uiManager.RemoveWall(wallToUndo);
         }
     }
 

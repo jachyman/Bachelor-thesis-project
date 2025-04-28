@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private GameObject horizontalWallPrefab;
     [SerializeField] private GameObject verticalWallPrefab;
+    [SerializeField] private GameObject verticalPlayerWallPrefab;
 
     [SerializeField] public TileBase horizontalWallTileBase;
     [SerializeField] public TileBase verticalWallTileBase;
@@ -22,9 +23,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TileBase switchTileOffTileBase;
 
     [SerializeField] private TMP_Text turnCounterText;
+    [SerializeField] private TMP_Text enemyMovementText;
     [SerializeField] private TMP_Text currentPlayer;
     [SerializeField] private TMP_Text wallsLeftText;
     [SerializeField] private TMP_Text gameOverText;
+    [SerializeField] private TMP_Text gameOverReasonText;
     [SerializeField] private UnityEngine.UI.Button nextLevelButton;
 
     public class UIWallInfo
@@ -47,10 +50,15 @@ public class UIManager : MonoBehaviour
         else
         {
             GenerateWallInput();
+            if (verticalPlayerWallPrefab != null)
+            {
+                GenerateWallsLeftUI();
+            }
         }
     }
 
     private Dictionary<GameObject, UIWallInfo> WallGameObjectPosition;
+    private List<GameObject> WallsLeftList;
 
     public void MoveEnemyToTile(Enemy enemy, ITile tile)
     {
@@ -139,6 +147,12 @@ public class UIManager : MonoBehaviour
     public void AddWall(Wall wall)
     {
         WallSetActive(wall, true);
+        UpdateWallsLeftUI();
+    }
+
+    public void RemoveWall(Wall wall)
+    {
+        WallSetActive(wall, false);
     }
 
     public Wall GenerateWall(GameObject wallGameObject)
@@ -155,22 +169,90 @@ public class UIManager : MonoBehaviour
     {
         int currentTurn = gameManager.GetCurrentTurn();
         int goalTurn = gameManager.GetGoalTurnCount();
-        turnCounterText.text =
-            "turn " +
-            currentTurn +
-            " / " +
-            goalTurn;
+        if (turnCounterText != null)
+        {
+            turnCounterText.text =
+                currentTurn +
+                " / " +
+                goalTurn;
+        }
 
-        currentPlayer.text = gameManager.IsPlayerTurn() ? "Player turn" : "Enemy turn";
-        wallsLeftText.text = "walls left " + gameManager.GetWallsLeft();
+        if (currentPlayer  != null)
+        {
+            currentPlayer.text = gameManager.IsPlayerTurn() ? "PLAYER TURN" : "ENEMY TURN";
+        }
+
+        /*
+        if (wallsLeftText != null)
+        {
+            wallsLeftText.text = "WALLS LEFT " + gameManager.GetWallsLeft();
+        }
+        */
+
+        if (verticalPlayerWallPrefab != null)
+        {
+            UpdateWallsLeftUI();
+        }
+        else if (wallsLeftText != null)
+        {
+            wallsLeftText.text = "WALLS LEFT " + gameManager.GetWallsLeft();
+        }
+
+        if (enemyMovementText != null)
+        {
+            enemyMovementText.text = "enemy movement: " + gameManager.GetEnemyMovement();
+        }
     }
 
-    public void GameOver(bool playerWon)
+    private void GenerateWallsLeftUI()
     {
-        gameOverText.text = playerWon ? "Player won" : "Player lost";
-        if (playerWon)
+        WallsLeftList = new List<GameObject>();
+        float verX = -0.5f;
+        float verY = 3.6f;
+        for (int i = 0; i < gameManager.GetWallsPerTurn(); i++)
+        {
+            WallsLeftList.Add(Instantiate(verticalPlayerWallPrefab, new Vector3(verX, verY, 0), Quaternion.identity));
+            verX -= 0.5f;
+        }
+    }
+
+    public void UpdateWallsLeftUI()
+    {
+        for (int i = 0; i < WallsLeftList.Count; ++i)
+        {
+            if (i >= gameManager.GetWallsLeft())
+            {
+                WallsLeftList[i].SetActive(false);
+            }
+            else
+            {
+                WallsLeftList[i].SetActive(true);
+            }
+        }
+    }
+
+    public void GameOver(GameManager.GameOver gameOver)
+    {
+        gameOverText.text = gameOver == GameManager.GameOver.PlayerWon ? "PLAYER WON" : "PLAYER LOST";
+        if (gameOver == GameManager.GameOver.PlayerWon)
         {
             nextLevelButton.gameObject.SetActive(true);
+        }
+        else if (gameOverReasonText !=  null)
+        {
+            switch (gameOver)
+            {
+                case GameManager.GameOver.PlayerLostLastTurn:
+                    gameOverReasonText.text = "IT WAS LAST TURN";
+                    break;
+                case GameManager.GameOver.PlayerLostGoalBlocked:
+                    gameOverReasonText.text = "ALL GOAL TILES ARE BLOCKED";
+                    break;
+                case GameManager.GameOver.PlayerLostEnemyReachedGoal:
+                    gameOverReasonText.text = "BUTTON HAS REACHED GOAL TILE";
+                    break;
+
+            }
         }
     }
 }

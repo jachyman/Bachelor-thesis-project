@@ -16,19 +16,17 @@ public class FastDownwardIntegration : MonoBehaviour
     // search command line string: /home/jachyman/fast_downward/downward/builds/release/bin/downward --search 'astar(blind())' --internal-plan-file sas_plan < output.sas
     public static bool RunFastDownward(string problemName, string domainName, string planName)
     {
-        string GeneratedPDDLFilesPath = Application.persistentDataPath;
-        //string translatePath = Application.streamingAssetsPath + "/translate/translate.py";
-        string translatePath = Path.Combine(Application.streamingAssetsPath, "translate", "translate.py");
-        //string translateFile = Application.persistentDataPath + "/output.sas";
-        string translateFile = Path.Combine(Application.persistentDataPath, "output.sas");
-        //string downwardPath = Application.streamingAssetsPath + "/downward.exe";
+        //string GeneratedPDDLFilesPath = Application.persistentDataPath;
+        string GeneratedPDDLFilesPath = Path.Combine(Application.streamingAssetsPath, "generated_files");
+        string translatePath = Path.Combine(Application.streamingAssetsPath, "translate", "launcher.py");
+        string translateDir = Path.GetDirectoryName(translatePath);
+        string pythonPath = Path.Combine(Application.streamingAssetsPath, "python", "python.exe");
+        //string translateFile = Path.Combine(Application.persistentDataPath, "output.sas");
+        string translateFile = Path.Combine(GeneratedPDDLFilesPath, "output.sas");
         string downwardPath = Path.Combine(Application.streamingAssetsPath, "downward.exe");
 
-        //string problemFile = GeneratedPDDLFilesPath + $"/{problemName}.pddl";
         string problemFile = Path.Combine(GeneratedPDDLFilesPath, $"{problemName}.pddl");
-        //string domainFile = Application.streamingAssetsPath + $"/{domainName}.pddl";
         string domainFile = Path.Combine(Application.streamingAssetsPath, $"{domainName}.pddl");
-        //string outputPlan = GeneratedPDDLFilesPath + $"/{planName}.pddl";
         string outputPlan =  Path.Combine(GeneratedPDDLFilesPath, $"{planName}.pddl");
 
         if (!File.Exists(translatePath))
@@ -55,13 +53,15 @@ public class FastDownwardIntegration : MonoBehaviour
         var translateArgs = $"\"{translatePath}\" \"{domainFile}\" \"{problemFile}\" --sas-file \"{translateFile}\"";
         ProcessStartInfo translateStartInfo = new ProcessStartInfo
         {
-            FileName = "python3",
+            FileName = pythonPath,
             Arguments = translateArgs,
             RedirectStandardOutput = true,
             RedirectStandardError = true,
             UseShellExecute = false,
             CreateNoWindow = true
         };
+
+        //translateStartInfo.EnvironmentVariables["PYTHONPATH"] = translateDir;
 
         Process translateProcess = new Process();
 
@@ -87,9 +87,9 @@ public class FastDownwardIntegration : MonoBehaviour
 
         translateProcess.WaitForExit();
 
-        //Debug.Log("translate exit code " + translateProcess.ExitCode);
-        //Debug.Log($"Standard output: {translateOutput}");
-        //Debug.Log($"Error output: {translateError}");
+        Debug.Log("translate exit code " + translateProcess.ExitCode);
+        Debug.Log($"Standard output: {translateOutput}");
+        Debug.Log($"Error output: {translateError}");
         translateProcess.Close();
 
 
