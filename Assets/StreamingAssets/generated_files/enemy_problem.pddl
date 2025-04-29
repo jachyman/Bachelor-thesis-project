@@ -13,7 +13,7 @@
     )
     
     (:init 
-        (enemy_loc en1 b4) 
+        (enemy_loc en1 a5) 
         
         
         
@@ -36,9 +36,9 @@
         (con a1 b1) (con b1 c1) (con c1 d1) (con d1 e1) 
         
         
-        (blocked b4) (blocked b4) 
+        (blocked a5) 
         
-        (wall b3 b2) (wall c3 b3) (wall c4 c3) (wall d4 c4) (wall d5 d4) (wall e5 d5) (wall a3 a2) 
+        (wall b3 b2) (wall c3 b3) (wall b1 a1) (wall a2 a1) 
 
         
 

@@ -8,7 +8,7 @@ public class WallInputHandler : MonoBehaviour
     [SerializeField] private UIManager uIManager;
     [SerializeField] private SpriteRenderer spriteRenderer;
 
-    private Color baseColor = Color.white;
+    private Color previousColor = Color.white;
     private Color hoverColor = Color.yellow;
 
     private void Start()
@@ -34,11 +34,12 @@ public class WallInputHandler : MonoBehaviour
 
     private void OnMouseEnter()
     {
+        previousColor = spriteRenderer.color;
         spriteRenderer.color = hoverColor;
     }
 
     private void OnMouseExit()
     {
-        spriteRenderer.color = baseColor;
+        spriteRenderer.color = previousColor;
     }
 }

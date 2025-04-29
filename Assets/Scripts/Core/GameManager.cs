@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static GameManager;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,8 +15,18 @@ public class GameManager : MonoBehaviour
     [SerializeField][Range(1, 10)] private int enemyMovesPerTurn;
     [SerializeField][Range(1, 3)] private int secondsBetweenEnemyMoves;
     [SerializeField][Range(1, 15)] private int goalTurnCount;
+    [SerializeField] private List<Hint> hints;
 
+    private int hintIndex = 0;
     private GameState gameState;
+
+    [Serializable]
+    public class Hint
+    {
+        public WallType wallType;
+        public int x;
+        public int y;
+    }
 
     public enum EnemyMovement
     {
@@ -28,6 +40,12 @@ public class GameManager : MonoBehaviour
         PlayerLostEnemyReachedGoal,
         PlayerLostLastTurn,
         PlayerLostGoalBlocked
+    }
+
+    public enum WallType
+    {
+        Vertical,
+        Horizontal
     }
 
     private void Start()
@@ -64,10 +82,9 @@ public class GameManager : MonoBehaviour
         return enemyMovesPerTurn;
     }
 
-    public int GetWallsPerTurn()
-    {
-        return wallsPerTurn;
-    }
+    public int GetWallsPerTurn() { return wallsPerTurn; }
+
+    public int GetHintIndex() { return hintIndex; }
 
     public void StartGame()
     {
@@ -206,6 +223,17 @@ public class GameManager : MonoBehaviour
             uiManager.AddWall(wall);
             board.AddWall(wall);
         }
+    }
+
+    public void GetHint()
+    {
+        hintIndex++;
+        for (int i = 0; i < hintIndex; i++)
+        {
+            Hint hint = hints[i];
+            uiManager.ShowHintWall(hint);
+        }
+        uiManager.UpdateUI();
     }
 
     public void UndoWallBuild()

@@ -28,7 +28,12 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text wallsLeftText;
     [SerializeField] private TMP_Text gameOverText;
     [SerializeField] private TMP_Text gameOverReasonText;
+    [SerializeField] private TMP_Text hintCountText;
     [SerializeField] private UnityEngine.UI.Button nextLevelButton;
+
+    private GameObject[,] horizontalWallInputsList;
+    private GameObject[,] verticalWallInputsList;
+    private Color hintHighlightColor = Color.green;
 
     public class UIWallInfo
     {
@@ -112,28 +117,37 @@ public class UIManager : MonoBehaviour
 
     private void GenerateWallInput()
     {
-        WallGameObjectPosition = new Dictionary<GameObject, UIWallInfo>();
+        int rows = board.GetRows();
+        int columns = board.GetCols();
 
-        for (int row = 0; row < board.GetRows(); row++)
+        WallGameObjectPosition = new Dictionary<GameObject, UIWallInfo>();
+        horizontalWallInputsList = new GameObject[rows - 1, columns];
+        verticalWallInputsList = new GameObject[rows, columns - 1];
+
+        for (int row = 0; row < rows; row++)
         {
             float horY = 1.05f + row + (row * 0.1f);
             float verY = 0.5f + row + (row * 0.1f);
-            for (int col = 0; col < board.GetCols(); col++)
+            for (int col = 0; col < columns; col++)
             {
                 float horX = 0.5f + col + (col * 0.1f);
                 float verX = 1.05f + col + (col * 0.1f);
 
-                if (row < board.GetRows() - 1)
+                if (row < rows - 1)
                 {
                     Vector2Int position = new Vector2Int(col, row + 1);
                     UIWallInfo wallInfo = new UIWallInfo(position, true);
-                    WallGameObjectPosition[Instantiate(horizontalWallPrefab, new Vector3(horX, horY, 0), Quaternion.identity)] = wallInfo;
+                    GameObject wall = Instantiate(horizontalWallPrefab, new Vector3(horX, horY, 0), Quaternion.identity);
+                    WallGameObjectPosition[wall] = wallInfo;
+                    horizontalWallInputsList[row, col] = wall;
                 }
-                if (col < board.GetCols() - 1)
+                if (col < columns - 1)
                 {
                     Vector2Int position = new Vector2Int(col + 1, row);
                     UIWallInfo wallInfo = new UIWallInfo(position, false);
-                    WallGameObjectPosition[Instantiate(verticalWallPrefab, new Vector3(verX, verY, 0), Quaternion.identity)] = wallInfo;
+                    GameObject wall = Instantiate(verticalWallPrefab, new Vector3(verX, verY, 0), Quaternion.identity);
+                    WallGameObjectPosition[wall] = wallInfo;
+                    verticalWallInputsList[row, col] = wall;
                 }
             }
         }
@@ -202,6 +216,11 @@ public class UIManager : MonoBehaviour
         {
             enemyMovementText.text = "enemy movement: " + gameManager.GetEnemyMovement();
         }
+
+        if (hintCountText != null)
+        {
+            hintCountText.text = gameManager.GetHintIndex().ToString();
+        }
     }
 
     private void GenerateWallsLeftUI()
@@ -229,6 +248,21 @@ public class UIManager : MonoBehaviour
                 WallsLeftList[i].SetActive(true);
             }
         }
+    }
+
+    public void ShowHintWall(GameManager.Hint hint)
+    {
+        GameObject wall;
+        if (hint.wallType == GameManager.WallType.Vertical)
+        {
+            wall = verticalWallInputsList[hint.x, hint.y];
+        }
+        else
+        {
+            wall = horizontalWallInputsList[hint.x, hint.y];
+        }
+
+        wall.GetComponent<SpriteRenderer>().color = hintHighlightColor;
     }
 
     public void GameOver(GameManager.GameOver gameOver)
