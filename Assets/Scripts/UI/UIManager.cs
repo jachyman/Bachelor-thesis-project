@@ -29,7 +29,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text gameOverText;
     [SerializeField] private TMP_Text gameOverReasonText;
     [SerializeField] private TMP_Text hintCountText;
-    [SerializeField] private UnityEngine.UI.Button nextLevelButton;
+    //[SerializeField] private UnityEngine.UI.Button nextLevelButton;
+    [SerializeField] private GameObject nextLevelButton;
 
     private GameObject[,] horizontalWallInputsList;
     private GameObject[,] verticalWallInputsList;

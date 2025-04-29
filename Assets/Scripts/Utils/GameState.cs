@@ -9,6 +9,7 @@ public class GameState
     public int wallsBuildCurrentTurn;
     public bool isPlayerTurn;
     public bool gameOver;
+    public bool isPlayerWinner;
     public bool enemiesExecutingMoves;
 
     public GameState(Board board)
@@ -18,6 +19,7 @@ public class GameState
         wallsBuildCurrentTurn = 0;
         isPlayerTurn = true;
         gameOver = false;
+        isPlayerWinner = false;
         enemiesExecutingMoves = false;
     }
 }

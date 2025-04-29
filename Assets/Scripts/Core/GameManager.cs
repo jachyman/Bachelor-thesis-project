@@ -85,6 +85,14 @@ public class GameManager : MonoBehaviour
     public int GetWallsPerTurn() { return wallsPerTurn; }
 
     public int GetHintIndex() { return hintIndex; }
+    public bool DidPlayerWon()
+    {
+        if (gameState.gameOver && gameState.isPlayerWinner)
+        {
+            return true;
+        }
+        return false;
+    }
 
     public void StartGame()
     {
@@ -124,6 +132,10 @@ public class GameManager : MonoBehaviour
     public void EndGame(GameOver gameOver)
     {
         gameState.gameOver = true;
+        if (gameOver == GameOver.PlayerWon)
+        {
+            gameState.isPlayerWinner = true;
+        }
         uiManager.GameOver(gameOver);
     }
     public void StartPlayerTurn()

@@ -1,6 +1,6 @@
 (define (problem enemy_problem)
 
-    (:domain no_wall_triggers_domain)
+    (:domain sim_movement_domain)
     
     (:objects
         a5 b5 c5 d5 e5 
@@ -16,9 +16,10 @@
         (enemy_loc en1 a5) 
         
         
+        (next_turn en1 en1)
         
 
-        
+        (current_turn en1)
         
         ; column connections
         (con a5 a4) (con b5 b4) (con c5 c4) (con d5 d4) (con e5 e4) 
@@ -38,7 +39,7 @@
         
         (blocked a5) 
         
-        (wall b3 b2) (wall c3 b3) (wall b1 a1) (wall a2 a1) 
+        (wall c3 b3) 
 
         
 
@@ -46,7 +47,7 @@
     )
     
     (:goal
-        (or
+        (and
           (goal_reached en1)
           )
     )
