@@ -9,7 +9,7 @@ public class WallInputHandler : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
 
     private Color previousColor = Color.white;
-    private Color hoverColor = Color.yellow;
+    private Color32 hoverColor = new Color32(255, 165, 0, 255);
 
     private void Start()
     {

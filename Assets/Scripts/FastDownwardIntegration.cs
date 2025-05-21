@@ -51,6 +51,7 @@ public class FastDownwardIntegration : MonoBehaviour
         }
 
         var translateArgs = $"\"{translatePath}\" \"{domainFile}\" \"{problemFile}\" --sas-file \"{translateFile}\"";
+        Debug.Log(translateArgs);
         ProcessStartInfo translateStartInfo = new ProcessStartInfo
         {
             FileName = pythonPath,

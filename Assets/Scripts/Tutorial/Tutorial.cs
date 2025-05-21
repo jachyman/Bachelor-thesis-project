@@ -7,52 +7,92 @@ using UnityEngine.UI;
 
 public class Tutorial : MonoBehaviour
 {
+    /*
     [SerializeField] private TMP_Text tutorialText;
     [SerializeField] private Button nextButton;
     [SerializeField] private Image tutorialImage;
     [SerializeField] private List<Image> images = new List<Image>();
     [TextArea(3, 10)][SerializeField] private List<string> tutorialLines;
+    */
 
-    private int tutorialLineIndex;
+    [SerializeField] private List<GameObject> gameLostGameObjectsSetTrue = new List<GameObject>();
+    [SerializeField] private List<GameObject> gameWonGameObjectsSetTrue = new List<GameObject>();
 
-    void Start()
+    [SerializeField] private List<GameObject> wallBuiltGameObjectsSetTrue = new List<GameObject>();
+    [SerializeField] private List<GameObject> wallBuiltGameObjectsSetFalse = new List<GameObject>();
+    
+    [SerializeField] private List<GameObject> undoWallGameObjectsSetTrue = new List<GameObject>();
+    [SerializeField] private List<GameObject> undoWallGameObjectsSetFalse = new List<GameObject>();
+    
+    [SerializeField] private List<GameObject> blockedGoalGameObjectsSetTrue = new List<GameObject>();
+    [SerializeField] private List<GameObject> blockedGoalObjectsSetFalse = new List<GameObject>();
+
+    [SerializeField] private List<GameObject> nextTextList = new List<GameObject>();
+    private int nextTextIdx = 0;
+    [SerializeField] private GameObject nextTextButton;
+    public void GameLost()
     {
-        tutorialLineIndex = 0;
-        NextLine();
-    }
-
-    public void NextLine()
-    {
-        if (tutorialLineIndex < tutorialLines.Count)
+        foreach (GameObject gameObject in gameLostGameObjectsSetTrue)
         {
-            tutorialText.text = tutorialLines[tutorialLineIndex];
-            tutorialLineIndex++;
-
-            if (tutorialLineIndex == tutorialLines.Count && tutorialImage != null)
-            {
-                tutorialImage.gameObject.SetActive(true);
-            }
-            if (images.Count > 0 && tutorialLineIndex == 2)
-            {
-                foreach (Image image in images)
-                {
-                    image.gameObject.SetActive(false);
-                }
-            }
-        }
-        else
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            gameObject.SetActive(true);
         }
     }
 
-    public void Quit()
+    public void GameWon()
     {
-        Application.Quit();
+        foreach (GameObject gameObject in gameWonGameObjectsSetTrue)
+        {
+            gameObject.SetActive(true);
+        }
     }
 
-    public void BackToMenu()
+    public void WallBuilt()
     {
-        SceneManager.LoadScene(0);
+        foreach (GameObject gameObject in wallBuiltGameObjectsSetTrue)
+        {
+            gameObject.SetActive(true);
+        }
+        foreach (GameObject gameObject in wallBuiltGameObjectsSetFalse)
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
+    public void BlockeGoal()
+    {
+        foreach (GameObject gameObject in blockedGoalGameObjectsSetTrue)
+        {
+            gameObject.SetActive(true);
+        }
+        foreach (GameObject gameObject in blockedGoalObjectsSetFalse)
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
+    public void UndoWall()
+    {
+        foreach (GameObject gameObject in undoWallGameObjectsSetTrue)
+        {
+            gameObject.SetActive(true);
+        }
+        foreach (GameObject gameObject in undoWallGameObjectsSetFalse)
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
+    public void NextText()
+    {
+        if (nextTextIdx < nextTextList.Count - 1)
+        {
+            nextTextList[nextTextIdx].SetActive(false);
+            nextTextList[nextTextIdx + 1].SetActive(true);
+            if (nextTextIdx == nextTextList.Count - 2)
+            {
+                nextTextButton.SetActive(false);
+            }
+            nextTextIdx++;
+        }
     }
 }

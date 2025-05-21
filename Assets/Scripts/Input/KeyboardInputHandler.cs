@@ -43,5 +43,12 @@ public class KeyboardInputHandler : MonoBehaviour
                 sceneManager.RestartLevel();
             }
         }
+
+        // JUST FOR DEBUGGING - DELETE
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            PlayerPrefs.SetInt("levelAt", 1);
+            Debug.Log("levelAt " + PlayerPrefs.GetInt("levelAt"));
+        }
     }
 }

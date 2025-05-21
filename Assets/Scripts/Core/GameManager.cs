@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using static GameManager;
 
@@ -11,11 +12,18 @@ public class GameManager : MonoBehaviour
     [SerializeField] private EnemyAIManager aIManager;
     [SerializeField] private UIManager uiManager;
     [SerializeField] private EnemyMovement enemyMovement;
-    [SerializeField][Range(1, 5)] private int wallsPerTurn;
+    [SerializeField][Range(0, 5)] private int wallsPerTurn;
     [SerializeField][Range(1, 10)] private int enemyMovesPerTurn;
-    [SerializeField][Range(1, 3)] private int secondsBetweenEnemyMoves;
+    [SerializeField][Range(0, 3)] private int secondsBetweenEnemyMoves;
     [SerializeField][Range(1, 15)] private int goalTurnCount;
     [SerializeField] private List<Hint> hints;
+
+    [Header("--------For tutorial levels-------")]
+    [Header("")]
+    [SerializeField] private UnityEvent gameLostFunction;
+    [SerializeField] private UnityEvent wallBuiltFunction;
+    [SerializeField] private UnityEvent blockedGoalFunction;
+    [SerializeField] private UnityEvent undoWallFunction;
 
     private int hintIndex = 0;
     private GameState gameState;
@@ -131,6 +139,12 @@ public class GameManager : MonoBehaviour
     }
     public void EndGame(GameOver gameOver)
     {
+        gameLostFunction?.Invoke();
+        if (gameOver == GameOver.PlayerLostGoalBlocked)
+        {
+            blockedGoalFunction?.Invoke();
+        }
+
         gameState.gameOver = true;
         if (gameOver == GameOver.PlayerWon)
         {
@@ -234,6 +248,7 @@ public class GameManager : MonoBehaviour
             gameState.wallsBuildCurrentTurn++;
             uiManager.AddWall(wall);
             board.AddWall(wall);
+            wallBuiltFunction?.Invoke();
         }
     }
 
@@ -252,27 +267,12 @@ public class GameManager : MonoBehaviour
     {
         if (gameState.wallsBuildCurrentTurn > 0)
         {
+            undoWallFunction?.Invoke();
+
             gameState.wallsBuildCurrentTurn--;
             Wall wallToUndo = board.UndoWallBuild();
             uiManager.UpdateUI();
             uiManager.RemoveWall(wallToUndo);
         }
-    }
-
-    public void RestartLevel()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
-
-    public void LoadNextLevel()
-    {
-        Debug.Log("next level");
-        Debug.Log(SceneManager.GetActiveScene().buildIndex);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-    }
-
-    public void QuitGame()
-    {
-        Application.Quit();
     }
 }

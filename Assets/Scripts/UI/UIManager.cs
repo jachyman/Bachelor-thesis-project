@@ -34,7 +34,7 @@ public class UIManager : MonoBehaviour
 
     private GameObject[,] horizontalWallInputsList;
     private GameObject[,] verticalWallInputsList;
-    private Color hintHighlightColor = Color.green;
+    private Color hintHighlightColor = Color.blue;
 
     public class UIWallInfo
     {

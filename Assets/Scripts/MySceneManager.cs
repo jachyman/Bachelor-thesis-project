@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.SearchService;
@@ -6,6 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class MySceneManager : MonoBehaviour
 {
+    const int levelIndexOffset = 2;
     public void QuitGame()
     {
         Application.Quit();
@@ -28,7 +30,20 @@ public class MySceneManager : MonoBehaviour
 
     public void GoToNextLevel()
     {
-        int index = (SceneManager.GetActiveScene().buildIndex + 1) % SceneManager.sceneCountInBuildSettings;
+        int index = SceneManager.GetActiveScene().buildIndex + 1;
+        if (index > SceneManager.sceneCountInBuildSettings)
+        {
+            index = 0;
+        }
+        else if (SceneManager.GetActiveScene().buildIndex - levelIndexOffset == PlayerPrefs.GetInt("levelAt"))
+        {
+            PlayerPrefs.SetInt("levelAt", PlayerPrefs.GetInt("levelAt") + 1);
+        }
         SceneManager.LoadScene(index);
+    }
+
+    public void GoToLevel(int levelNumber)
+    {
+        SceneManager.LoadScene(levelNumber + levelIndexOffset);
     }
 }

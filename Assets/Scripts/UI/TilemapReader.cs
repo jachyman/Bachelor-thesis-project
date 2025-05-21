@@ -34,7 +34,7 @@ public class TilemapReader : MonoBehaviour
     public void InitilizeBoardFromTilemaps(Board board)
     {
         board.walls = GetWallsFromWallTilemaps();
-        board.tiles = GetTilesFromGroundTilemap(board);
+        board.tiles = GetTilesFromGroundTilemap();
         board.enemies = GetEnemiesFromTilemap(board);
 
         if (board.tiles == null)
@@ -43,7 +43,7 @@ public class TilemapReader : MonoBehaviour
         }
     }
 
-    private ITile[,] GetTilesFromGroundTilemap(Board board)
+    private ITile[,] GetTilesFromGroundTilemap()
     {
         ITile[,] tiles = new ITile[rows, columns];
 

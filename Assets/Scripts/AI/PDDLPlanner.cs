@@ -11,7 +11,7 @@ using static EnemyAIManager;
 public class PDDLPlanner : MonoBehaviour
 {
     //private const string PDDLPath = "Assets/PDDL/";
-    private static string PDDLPath;
+    private static string PDDLPath = Path.Combine(Application.streamingAssetsPath, "generated_files");
     private static string PDDLDomainPath;
 
     private const string moveActionString = "move";
@@ -23,7 +23,7 @@ public class PDDLPlanner : MonoBehaviour
     private void Awake()
     {
         //PDDLPath = Application.persistentDataPath + "/";
-        PDDLPath = Path.Combine(Application.streamingAssetsPath, "generated_files");
+        //PDDLPath = Path.Combine(Application.streamingAssetsPath, "generated_files");
     }
 
     public static bool SolveProblem(Board board, string problemName, string domainName, DomainType domainType)
