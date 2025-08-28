@@ -1,4 +1,4 @@
-# Button Hunter 🎮
+# Button Hunter
 
 ## Overview
 **Button Hunter** is a turn-based puzzle game developed as part of my bachelor’s thesis.  
