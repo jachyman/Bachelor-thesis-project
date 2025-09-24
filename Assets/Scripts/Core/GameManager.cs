@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -24,6 +25,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private UnityEvent wallBuiltFunction;
     [SerializeField] private UnityEvent blockedGoalFunction;
     [SerializeField] private UnityEvent undoWallFunction;
+    [SerializeField] private UnityEvent getHintFunction;
 
     private int hintIndex = 0;
     private GameState gameState;
@@ -254,13 +256,13 @@ public class GameManager : MonoBehaviour
 
     public void GetHint()
     {
-        hintIndex++;
-        for (int i = 0; i < hintIndex; i++)
+        getHintFunction?.Invoke();
+
+        if (hintIndex < hints.Count)
         {
-            Hint hint = hints[i];
-            uiManager.ShowHintWall(hint);
+            uiManager.ShowHintWall(hints[hintIndex]);
+            hintIndex++;
         }
-        uiManager.UpdateUI();
     }
 
     public void UndoWallBuild()

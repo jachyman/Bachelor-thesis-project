@@ -10,7 +10,7 @@ public class LevelSelect : MonoBehaviour
 
     void Start()
     {
-        int levelAt = PlayerPrefs.GetInt("levelAt", 0);
+        int levelAt = PlayerPrefs.GetInt("levelAt", 1);
         Debug.Log("level at " + levelAt);
 
         for (int i = 0; i < levelButtons.Count; i++)

@@ -16,10 +16,13 @@ public class Tutorial : MonoBehaviour
     */
 
     [SerializeField] private List<GameObject> gameLostGameObjectsSetTrue = new List<GameObject>();
+    [SerializeField] private List<GameObject> gameLostGameObjectsSetFalse = new List<GameObject>();
+    
     [SerializeField] private List<GameObject> gameWonGameObjectsSetTrue = new List<GameObject>();
 
     [SerializeField] private List<GameObject> wallBuiltGameObjectsSetTrue = new List<GameObject>();
     [SerializeField] private List<GameObject> wallBuiltGameObjectsSetFalse = new List<GameObject>();
+    private bool wallBuilt = false;
     
     [SerializeField] private List<GameObject> undoWallGameObjectsSetTrue = new List<GameObject>();
     [SerializeField] private List<GameObject> undoWallGameObjectsSetFalse = new List<GameObject>();
@@ -27,14 +30,24 @@ public class Tutorial : MonoBehaviour
     [SerializeField] private List<GameObject> blockedGoalGameObjectsSetTrue = new List<GameObject>();
     [SerializeField] private List<GameObject> blockedGoalObjectsSetFalse = new List<GameObject>();
 
+    [SerializeField] private List<GameObject> hintGameObjectsSetTrue = new List<GameObject>();
+    [SerializeField] private List<GameObject> hintObjectsSetFalse = new List<GameObject>();
+    private bool clickedHint = false;
+
     [SerializeField] private List<GameObject> nextTextList = new List<GameObject>();
     private int nextTextIdx = 0;
     [SerializeField] private GameObject nextTextButton;
+
+    [SerializeField] private GameObject nextLevelButton;
     public void GameLost()
     {
         foreach (GameObject gameObject in gameLostGameObjectsSetTrue)
         {
             gameObject.SetActive(true);
+        }
+        foreach (GameObject gameObject in gameLostGameObjectsSetFalse)
+        {
+            gameObject.SetActive(false);
         }
     }
 
@@ -48,13 +61,17 @@ public class Tutorial : MonoBehaviour
 
     public void WallBuilt()
     {
-        foreach (GameObject gameObject in wallBuiltGameObjectsSetTrue)
+        if (!wallBuilt)
         {
-            gameObject.SetActive(true);
-        }
-        foreach (GameObject gameObject in wallBuiltGameObjectsSetFalse)
-        {
-            gameObject.SetActive(false);
+            foreach (GameObject gameObject in wallBuiltGameObjectsSetTrue)
+            {
+                gameObject.SetActive(true);
+            }
+            foreach (GameObject gameObject in wallBuiltGameObjectsSetFalse)
+            {
+                gameObject.SetActive(false);
+            }
+            wallBuilt = true;
         }
     }
 
@@ -94,5 +111,26 @@ public class Tutorial : MonoBehaviour
             }
             nextTextIdx++;
         }
+    }
+
+    public void GetHint()
+    {
+        if (!clickedHint)
+        {
+            foreach (GameObject gameObject in hintGameObjectsSetTrue)
+            {
+                gameObject.SetActive(true);
+            }
+            foreach (GameObject gameObject in hintObjectsSetFalse)
+            {
+                gameObject.SetActive(false);
+            }
+            clickedHint = true;
+        }
+    }
+
+    public void SetActiveNextLevelButton()
+    {
+        nextLevelButton.SetActive(true);
     }
 }

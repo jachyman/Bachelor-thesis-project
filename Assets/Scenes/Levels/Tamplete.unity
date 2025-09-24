@@ -2461,6 +2461,9 @@ MonoBehaviour:
   undoWallFunction:
     m_PersistentCalls:
       m_Calls: []
+  getHintFunction:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &1324337281
 Transform:
   m_ObjectHideFlags: 0

@@ -13,7 +13,7 @@
     )
     
     (:init 
-        (enemy_loc en1 b2) 
+        (enemy_loc en1 b4) 
         
         
         (next_turn en1 en1)
@@ -37,13 +37,13 @@
         (con a1 b1) (con b1 c1) (con c1 d1) (con d1 e1) 
         
         
-        (blocked c3) (blocked b2) (blocked b2) 
+        (blocked b4) (blocked c3) (blocked b4) 
         
-        (wall d2 d1) (wall b2 a2) (wall a3 a2) (wall b2 b1) 
+        (wall a4 a3) (wall b4 b3) (wall c4 b4) 
 
         
 
-        (goal_tile a2) (goal_tile d1) 
+        (goal_tile b1) 
     )
     
     (:goal

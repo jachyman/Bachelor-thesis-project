@@ -1,13 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MySceneManager : MonoBehaviour
 {
-    const int levelIndexOffset = 2;
     public void QuitGame()
     {
         Application.Quit();
@@ -25,7 +23,15 @@ public class MySceneManager : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene(1);
+        Debug.Log("levelAt " + PlayerPrefs.GetInt("levelAt"));
+        if (PlayerPrefs.GetInt("levelAt") == 0)
+        {
+            SceneManager.LoadScene("Level_0");
+        }
+        else
+        {
+            SceneManager.LoadScene("LevelSelect");
+        }
     }
 
     public void GoToNextLevel()
@@ -35,15 +41,37 @@ public class MySceneManager : MonoBehaviour
         {
             index = 0;
         }
-        else if (SceneManager.GetActiveScene().buildIndex - levelIndexOffset == PlayerPrefs.GetInt("levelAt"))
+        else //if (SceneManager.GetActiveScene().name - levelIndexOffset == PlayerPrefs.GetInt("levelAt"))
         {
-            PlayerPrefs.SetInt("levelAt", PlayerPrefs.GetInt("levelAt") + 1);
+            string[] splitSceneName = SceneManager.GetActiveScene().name.Split("_");
+            if (splitSceneName[0] == "Level")
+            {
+                int finishedLevelIndex = Int32.Parse(splitSceneName[1]);
+                //Debug.Log("finished level idx " + finishedLevelIndex);
+                //Debug.Log("level at " + finishedLevelIndex);
+                if (finishedLevelIndex == PlayerPrefs.GetInt("levelAt"))
+                {
+                    PlayerPrefs.SetInt("levelAt", finishedLevelIndex + 1);
+                }
+            }
         }
         SceneManager.LoadScene(index);
     }
 
     public void GoToLevel(int levelNumber)
     {
-        SceneManager.LoadScene(levelNumber + levelIndexOffset);
+
+        //SceneManager.LoadScene(levelNumber + levelIndexOffset);
+        SceneManager.LoadScene("Level_" + levelNumber);
+    }
+
+    public void GoToSettings()
+    {
+        SceneManager.LoadScene("Settings");
+    }
+
+    public void ResetGame()
+    {
+        PlayerPrefs.SetInt("levelAt", 0);
     }
 }

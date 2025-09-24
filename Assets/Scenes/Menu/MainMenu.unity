@@ -145,10 +145,10 @@ PrefabInstance:
     - target: {fileID: 5645412085553280663, guid: 78141830ace99f94dbde18e9e35c673e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 800885391}
     - target: {fileID: 5645412085553280663, guid: 78141830ace99f94dbde18e9e35c673e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: 
+      value: GoToSettings
       objectReference: {fileID: 0}
     - target: {fileID: 5645412085553280663, guid: 78141830ace99f94dbde18e9e35c673e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -1180,50 +1180,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7357164272623101094, guid: 78141830ace99f94dbde18e9e35c673e, type: 3}
   m_PrefabInstance: {fileID: 1222767401}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1346843810
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1346843812}
-  - component: {fileID: 1346843811}
-  m_Layer: 0
-  m_Name: InputManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1346843811
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1346843810}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d196f1112e3e1cc438559b45abcfc386, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1346843812
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1346843810}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.1489167, y: 0.24820189, z: 68.99723}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2014256466
 GameObject:
   m_ObjectHideFlags: 0
@@ -1290,8 +1246,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4278232575
+  m_fontColor: {r: 1, g: 0.64705884, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1371,4 +1327,3 @@ SceneRoots:
   - {fileID: 502938831}
   - {fileID: 424953252}
   - {fileID: 800885392}
-  - {fileID: 1346843812}
